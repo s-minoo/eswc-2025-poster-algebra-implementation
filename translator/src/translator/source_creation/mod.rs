@@ -245,7 +245,7 @@ fn get_source_config(
     )?;
 
     let path_res:Result<String> = match source_node {
-        Term::Literal(literal) => Ok(literal.to_string()),
+        Term::Literal(literal) => Ok(literal.value().to_string()),
         _ => { Err(OxigraphError::new(OxigraphErrorKind::GenericError(
                     format!("error parsing rml:source {}.\n currently only supports CSV/JSON files", source_node))).into())}
     };
