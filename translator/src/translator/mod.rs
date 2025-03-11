@@ -4,13 +4,13 @@ mod source_creation;
 mod util;
 
 use std::cell::RefCell;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 
 use anyhow::Result;
 use extend_creation::create_extend_function;
 use operator::formats::DataFormat;
-use operator::{Extend, Function, Operator, Serializer, Target, TermType};
+use operator::{Extend, Function, Operator, Projection, Serializer, Target, TermType};
 use oxigraph::model::{SubjectRef, Term};
 use oxigraph::store::Store;
 use plangenerator::data_type::RcRefCellPlan;
@@ -51,8 +51,7 @@ pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
             continue;
         }
 
-        let (source, query_attr_map) =
-            create_source_operator(triples_map_iri, store)?;
+        let (source, query_attr_map) = create_source_operator(triples_map_iri, store)?;
 
         let mut sourced_plan = plan.source(source);
 
@@ -62,22 +61,16 @@ pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
             store,
         )?;
         let subject_ref = termref_to_subjref(subject.as_ref())?;
-        let subject_function =
-            create_extend_function(subject_ref, store, &query_attr_map)?;
+        let subject_function = create_extend_function(subject_ref, store, &query_attr_map)?;
         let subj_extend = operator::Operator::ExtendOp {
             config: Extend {
-                extend_pairs: HashMap::from([(
-                    SUBJECT_ATTR.to_string(),
-                    subject_function,
-                )]),
+                extend_pairs: HashMap::from([(SUBJECT_ATTR.to_string(), subject_function)]),
             },
         };
-        let mut processed_plan =
-            sourced_plan.apply(&subj_extend, "Subject_Extend_").unwrap();
+        let mut processed_plan = sourced_plan.apply(&subj_extend, "Subject_Extend_").unwrap();
 
         let predicate_object_map = predicate_object_map_res?;
-        let predicate_object_map_subjref =
-            termref_to_subjref(predicate_object_map.as_ref())?;
+        let predicate_object_map_subjref = termref_to_subjref(predicate_object_map.as_ref())?;
 
         let predicate = get_object(
             predicate_object_map_subjref,
@@ -93,10 +86,7 @@ pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
         )?;
         let pred_extend = Operator::ExtendOp {
             config: Extend {
-                extend_pairs: HashMap::from([(
-                    PREDICATE_ATTR.to_string(),
-                    predicate_function,
-                )]),
+                extend_pairs: HashMap::from([(PREDICATE_ATTR.to_string(), predicate_function)]),
             },
         };
 
@@ -125,32 +115,35 @@ pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
 
         let gm_res = sm_gm_res.or(pom_gm_res);
         let extend_func = if let Ok(gm) = gm_res {
-            create_extend_function(
-                termref_to_subjref(gm.as_ref())?,
-                store,
-                &query_attr_map,
-            )?
+            create_extend_function(termref_to_subjref(gm.as_ref())?, store, &query_attr_map)?
         } else {
             Function::TypedConstant {
-                value:     vocab::r2rml::CLASS::DEFAULTGRAPH.to_string(),
+                value: vocab::r2rml::CLASS::DEFAULTGRAPH.to_string(),
                 term_type: TermType::IRI,
             }
         };
 
         let extend_op = Operator::ExtendOp {
             config: Extend {
-                extend_pairs: HashMap::from([(
-                    GRAPH_ATTR.to_string(),
-                    extend_func,
-                )]),
+                extend_pairs: HashMap::from([(GRAPH_ATTR.to_string(), extend_func)]),
             },
         };
 
-        processed_plan =
-            processed_plan.apply(&extend_op, "Graph_Extend_").unwrap();
+        processed_plan = processed_plan.apply(&extend_op, "Graph_Extend_").unwrap();
         if let Some(mut previous_plan) = previous_plan_opt {
-            previous_plan_opt =
-                Some(previous_plan.union(processed_plan.into()).unwrap());
+            let proj_operator = Operator::ProjectOp {
+                config: Projection {
+                    projection_attributes: HashSet::from([
+                        SUBJECT_ATTR.to_string(),
+                        PREDICATE_ATTR.to_string(),
+                        OBJECT_ATTR.to_string(),
+                        GRAPH_ATTR.to_string(),
+                    ]),
+                },
+            };
+            processed_plan = processed_plan.apply(&proj_operator, "Projection_").unwrap();
+
+            previous_plan_opt = Some(previous_plan.union(processed_plan.into()).unwrap());
         } else {
             previous_plan_opt = Some(processed_plan);
         }
@@ -169,8 +162,8 @@ pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
 
     let sink = Target {
         configuration: HashMap::new(),
-        target_type:   operator::IOType::StdOut,
-        data_format:   DataFormat::NQuads,
+        target_type: operator::IOType::StdOut,
+        data_format: DataFormat::NQuads,
     };
 
     let serialized_plan = consolidated_plan
@@ -236,27 +229,17 @@ fn process_object_map(
 
         let extend_operator = Operator::ExtendOp {
             config: Extend {
-                extend_pairs: HashMap::from([(
-                    OBJECT_ATTR.to_string(),
-                    extend_func,
-                )]),
+                extend_pairs: HashMap::from([(OBJECT_ATTR.to_string(), extend_func)]),
             },
         };
         Ok(joined_plan
             .apply(&extend_operator, "Object_Extend_")
             .unwrap())
     } else {
-        let extend_func = create_extend_function(
-            object_subjref,
-            store,
-            child_query_attr_map,
-        )?;
+        let extend_func = create_extend_function(object_subjref, store, child_query_attr_map)?;
         let extend_operator = Operator::ExtendOp {
             config: Extend {
-                extend_pairs: HashMap::from([(
-                    OBJECT_ATTR.to_string(),
-                    extend_func,
-                )]),
+                extend_pairs: HashMap::from([(OBJECT_ATTR.to_string(), extend_func)]),
             },
         };
         Ok(processed_plan
