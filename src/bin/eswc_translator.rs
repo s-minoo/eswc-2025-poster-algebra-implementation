@@ -1,8 +1,8 @@
-use translator::translator::translate_normalized_rml;
-use translator::normalizer::normalize_rml;
-use translator::io;
 use std::path::{Path, PathBuf};
 use std::str::FromStr;
+use translator::io;
+use translator::normalizer::normalize_rml;
+use translator::translator::translate_normalized_rml;
 
 use clap::{arg, Command};
 
@@ -43,9 +43,7 @@ pub fn main() -> anyhow::Result<()> {
     let cli = Cli::default();
     let matches = cli.cmd.get_matches();
     let mut output_folder = PathBuf::from_str("./")?;
-    if let Some(arg_out_folder) =
-        matches.get_one::<String>("outputFolderSuffix")
-    {
+    if let Some(arg_out_folder) = matches.get_one::<String>("outputFolderSuffix") {
         output_folder = Path::new(arg_out_folder).to_path_buf();
     }
 
@@ -59,7 +57,28 @@ pub fn main() -> anyhow::Result<()> {
 
                 handle_file(output_folder, file_name)?;
             }
-            "folder" => {}
+            "folder" => {
+                let root = sub_args
+                    .get_one::<String>("FOLDER")
+                    .map(Path::new)
+                    .expect("expects a folder path");
+                let files = walkdir::WalkDir::new(root)
+                    .into_iter()
+                    .filter_map(|entry_res| entry_res.ok())
+                    .map(|entry| entry.into_path())
+                    .filter(|path| path.is_file());
+
+                for file_path in files {
+                    if let Some(ext) = file_path.extension() {
+                        if ext == "ttl" {
+                            let parent_folder = file_path.parent().unwrap_or(Path::new("./"));
+                            println!("Processing RML document: {}", file_path.to_string_lossy());
+                            handle_file(parent_folder.to_path_buf(), &file_path)?;
+                            println!("{}", "=".repeat(10)); 
+                        }
+                    }
+                }
+            }
             "stdin" => {}
             _ => {}
         }
@@ -68,10 +87,7 @@ pub fn main() -> anyhow::Result<()> {
     Ok(())
 }
 
-fn handle_file(
-    output_folder: PathBuf,
-    file_name: &Path,
-) -> Result<(), anyhow::Error> {
+fn handle_file(output_folder: PathBuf, file_name: &Path) -> Result<(), anyhow::Error> {
     let output_normalized_file = output_folder.join("normalized.ttl");
     let output_plan_json = output_folder.join("plan.json");
     let output_plan_dot = output_folder.join("plan.dot");
@@ -91,9 +107,6 @@ fn handle_file(
     println!("Writing plan.json file....");
     plan.write_json(output_plan_json).unwrap();
 
-    io::dump_oxigraph_store(
-        normalized_store,
-        output_normalized_file.as_path(),
-    )?;
+    io::dump_oxigraph_store(normalized_store, output_normalized_file.as_path())?;
     Ok(())
 }
