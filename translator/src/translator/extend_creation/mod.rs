@@ -34,11 +34,18 @@ pub fn create_extend_function(
                 var
             ))),
         }?;
+        let value = match constant_o {
+            oxigraph::model::Term::NamedNode(named_node) => {
+                Ok(named_node.into_string())
+            }
+            oxigraph::model::Term::Literal(literal) => Ok(literal.value().to_string()),
+            var => Err(OxigraphErrorKind::GenericError(format!(
+                "object node of the rr:constant cannot be a blanknode {}",
+                var
+            ))),
+        }?;
 
-        return Ok(Function::TypedConstant {
-            value: constant_o.to_string(),
-            term_type,
-        });
+        return Ok(Function::TypedConstant { value, term_type });
     }
 
     // Handle rml:reference
