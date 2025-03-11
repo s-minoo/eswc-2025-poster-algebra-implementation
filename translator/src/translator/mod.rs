@@ -61,7 +61,7 @@ pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
             store,
         )?;
         let subject_ref = termref_to_subjref(subject.as_ref())?;
-        let subject_function = create_extend_function(subject_ref, store, &query_attr_map)?;
+        let subject_function = create_extend_function(subject_ref, store, &query_attr_map, false)?;
         let subj_extend = operator::Operator::ExtendOp {
             config: Extend {
                 extend_pairs: HashMap::from([(SUBJECT_ATTR.to_string(), subject_function)]),
@@ -83,6 +83,7 @@ pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
             termref_to_subjref(predicate.as_ref())?,
             store,
             &query_attr_map,
+            false,
         )?;
         let pred_extend = Operator::ExtendOp {
             config: Extend {
@@ -115,7 +116,12 @@ pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
 
         let gm_res = sm_gm_res.or(pom_gm_res);
         let extend_func = if let Ok(gm) = gm_res {
-            create_extend_function(termref_to_subjref(gm.as_ref())?, store, &query_attr_map)?
+            create_extend_function(
+                termref_to_subjref(gm.as_ref())?,
+                store,
+                &query_attr_map,
+                false,
+            )?
         } else {
             Function::TypedConstant {
                 value: vocab::r2rml::CLASS::DEFAULTGRAPH.to_string(),
@@ -225,6 +231,7 @@ fn process_object_map(
             termref_to_subjref(subject_ptm.as_ref())?,
             store,
             &parent_query_attr_map,
+            false,
         )?;
 
         let extend_operator = Operator::ExtendOp {
@@ -236,7 +243,8 @@ fn process_object_map(
             .apply(&extend_operator, "Object_Extend_")
             .unwrap())
     } else {
-        let extend_func = create_extend_function(object_subjref, store, child_query_attr_map)?;
+        let extend_func =
+            create_extend_function(object_subjref, store, child_query_attr_map, true)?;
         let extend_operator = Operator::ExtendOp {
             config: Extend {
                 extend_pairs: HashMap::from([(OBJECT_ATTR.to_string(), extend_func)]),

@@ -6,7 +6,7 @@ use oxigraph::model::{NamedOrBlankNodeRef, Quad, SubjectRef, TermRef};
 use oxigraph::store::{StorageError, Store};
 
 use super::data::QueryAttrMap;
-use super::util::termref_to_literal;
+use super::util::{get_quads, termref_to_literal};
 use crate::error::oxigraph::OxigraphErrorKind;
 use crate::translator::util::get_object;
 use crate::FromVocab;
@@ -15,6 +15,7 @@ pub fn create_extend_function(
     term_map_subj: SubjectRef,
     store: &Store,
     query_attr_map: &QueryAttrMap,
+    is_object_map: bool,
 ) -> Result<Function> {
     //CHANGE THIS
     let mut result = Function::Nop;
@@ -28,19 +29,16 @@ pub fn create_extend_function(
         let term_type = match constant_o.as_ref() {
             TermRef::NamedNode(_) => Ok(TermType::IRI),
             TermRef::Literal(_) => Ok(TermType::Literal),
-            var => {
-                Err(OxigraphErrorKind::GenericError(format!(
-                    "object node of the rr:constant cannot be a blanknode {}",
-                    var
-                )))
-            }
+            var => Err(OxigraphErrorKind::GenericError(format!(
+                "object node of the rr:constant cannot be a blanknode {}",
+                var
+            ))),
         }?;
 
         return Ok(Function::TypedConstant {
             value: constant_o.to_string(),
             term_type,
-        }
-        .into());
+        });
     }
 
     // Handle rml:reference
@@ -72,19 +70,18 @@ pub fn create_extend_function(
             let (is_query, extracted_string) = get_is_query_str_pair(&s_i);
             let mut function: Function;
             if is_query {
-                let value =
-                    query_attr_map.get(extracted_string).unwrap().to_string();
+                let value = query_attr_map.get(extracted_string).unwrap().to_string();
                 function = Function::Reference { value };
             } else {
                 function = Function::TypedConstant {
-                    value:     extracted_string.to_string(),
+                    value: extracted_string.to_string(),
                     term_type: TermType::Literal,
                 };
             }
 
             result = Function::Concatenate {
-                left_value:  Rc::new(result),
-                separator:   "".to_string(),
+                left_value: Rc::new(result),
+                separator: "".to_string(),
                 right_value: function.into(),
             };
         }
@@ -107,26 +104,43 @@ pub fn create_extend_function(
         store,
     ) {
         result = Function::Iri {
-            base_iri:       None,
+            base_iri: None,
             inner_function: Rc::new(result),
         }
     }
 
-    let mut dtype_function = None;
     if let Ok(term_type) = get_object(
-        term_map_subj.into(),
+        term_map_subj,
         vocab::r2rml::PROPERTY::DATATYPE.to_named_node().as_ref(),
         store,
     ) {
-        dtype_function = Some(Rc::new(Function::Constant {
+        let dtype_function = Some(Rc::new(Function::Constant {
             value: term_type.to_string(),
         }));
+        result = Function::Literal {
+            inner_function: Rc::new(result),
+            dtype_function,
+            langtype_function: None,
+        };
+    } else if is_object_map
+        && get_object(
+            term_map_subj,
+            vocab::rml::PROPERTY::REFERENCE.to_named_node().as_ref(),
+            store,
+        )
+        .is_ok()
+    {
+        result = Function::Literal {
+            inner_function: Rc::new(result),
+            dtype_function: None,
+            langtype_function: None,
+        };
+    } else {
+        result = Function::Iri {
+            base_iri: None,
+            inner_function: Rc::new(result),
+        }
     }
-    result = Function::Literal {
-        inner_function: Rc::new(result),
-        dtype_function,
-        langtype_function: None,
-    };
 
     Ok(result)
 }
