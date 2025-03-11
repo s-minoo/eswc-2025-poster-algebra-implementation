@@ -1,10 +1,10 @@
+use translator::translator::translate_normalized_rml;
+use translator::normalizer::normalize_rml;
+use translator::io;
 use std::path::{Path, PathBuf};
 use std::str::FromStr;
 
 use clap::{arg, Command};
-use translator::io;
-use translator::normalizer::normalize_rml;
-use translator::translator::translate_normalized_rml;
 
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
