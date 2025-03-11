@@ -1,0 +1,79 @@
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+
+_:sm_shoe rr:graphMap _:join_graph.
+_:sm_shoe rr:graphMap _:shoe_graph.
+_:shoe_graph rr:constant <http://example.com/ShoeGraph>.
+_:tm_1 rr:predicateObjectMap _:join_pom;
+  rr:subjectMap _:sm_shoe;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:bf8398061bd0f12bc34663ecc2b3de63 rr:predicateObjectMap _:join_pom;
+  rr:subjectMap _:sm_shoe;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:f489d7efc2abf85baf7039f9dcee4d46 rr:predicateObjectMap _:shoe_type_pom;
+  rr:subjectMap _:sm_shoe;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:bc341ddcb1de32528f4a215ca5a607b6 rr:predicateObjectMap _:avgprice_pom;
+  rr:subjectMap _:sm_shoe;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:b2a12f39bed9f0f90a1aecded9e20690 rr:predicateObjectMap _:price_pom;
+  rr:subjectMap _:sm_shoe;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:e0601a615d0e270181085bebc5a2305c rr:predicateObjectMap _:brand_pom;
+  rr:subjectMap _:sm_shoe;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:join_om rr:termType rr:IRI;
+  rr:template "example/{brand}".
+
+_:join_pm rr:constant <http://example.com/joinedBrand>.
+_:join_pom rr:objectMap _:join_om;
+  rr:predicateMap _:join_pm.
+
+_:brand_pm rr:constant <http://example.com/name>.
+_:brand_pom rr:objectMap _:brand_om;
+  rr:predicateMap _:brand_pm.
+
+_:price_pm rr:constant <http://example.com/price>.
+_:price_pom rr:objectMap _:price_om;
+  rr:predicateMap _:price_pm.
+
+_:avgprice_pom rr:objectMap _:avgPrice_om;
+  rr:predicateMap _:price_pm.
+
+_:shoe_type_pom rr:objectMap _:shoe_type_om;
+  rr:predicateMap _:shoe_type_pm.
+
+_:shoe_type_pm rr:termType rr:IRI;
+  rr:constant rdf:type.
+
+_:shoe_type_om rr:termType rr:IRI;
+  rr:constant <http://example.com/Shoe>.
+
+_:brand_sm rr:graphMap _:brand_graph.
+_:join_graph rr:constant <http://example.com/JoinedGraph>.
+_:brand_graph rr:constant <http://example.com/BrandGraph>.
+<http://example.com/ns#BrandMapping> rr:subjectMap _:brand_sm.
+_:brand_sm rr:template "example/{brand}".
+<http://example.com/ns#BrandMapping> rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:avgPrice_om rml:reference "avgPrice".
+_:price_om rml:reference "price".
+_:brand_om rml:reference "brand".
+_:sm_shoe rr:template "example/{shoeId}".
+<http://example.com/ns#LogicalSource> rml:referenceFormulation <http://semweb.mmlab.be/ns/ql#CSV>;
+  rml:source "shoes.csv".
+

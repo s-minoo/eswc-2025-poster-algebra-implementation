@@ -1,0 +1,177 @@
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+
+_:fc343f85285942f792714f5db2dea26f rr:predicateObjectMap _:c78b86bb22644ada0d72c38240b8702e;
+  rr:subjectMap _:dd6f4df639df5b5121cd51f6a23d8da6;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:dd6f4df639df5b5121cd51f6a23d8da6 rr:graphMap _:a0f0bd4b658310ebf3b3dfd4b34c2aaf;
+  rr:template "example/{brand}".
+
+_:b91259dee6a6bde152555b4d50b4fc10 rr:predicateObjectMap _:c78b86bb22644ada0d72c38240b8702e;
+  rr:subjectMap _:da8ae45095bf031a922026f3cbfa1408;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:da8ae45095bf031a922026f3cbfa1408 rr:graphMap _:e72c2a885f558af4cda7fd653f4c7d82;
+  rr:template "example/{brand}".
+
+_:c795be841d3b31482f5505112b0345fe rr:predicateObjectMap _:a592bc9f836bb11110279bc8b9d49566;
+  rr:subjectMap _:e74fe0f16d2e4b1bfbc962a50bed096a;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:e74fe0f16d2e4b1bfbc962a50bed096a rr:graphMap _:c62f6064ab975b8227b9acf12b93653e;
+  rr:template "example/{shoeId}".
+
+_:e8534721ba3f690af7b99d8d768e8943 rr:predicateObjectMap _:a592bc9f836bb11110279bc8b9d49566;
+  rr:subjectMap _:b822ad22fcf1618e1c0533be815214b1;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:b822ad22fcf1618e1c0533be815214b1 rr:graphMap _:c5231e0eb925d91d5e59d70bbbf3c9cb;
+  rr:template "example/{shoeId}".
+
+_:b3afc7ff8560111230a5666a3077642d rr:predicateObjectMap _:join_pom;
+  rr:subjectMap _:ba06c700c5bdf5ca27a4f5bb35954472;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:ba06c700c5bdf5ca27a4f5bb35954472 rr:graphMap _:c62f6064ab975b8227b9acf12b93653e;
+  rr:template "example/{shoeId}".
+
+_:af1ac8a6ec89a63a03d35be93797369d rr:predicateObjectMap _:join_pom;
+  rr:subjectMap _:ea48bfc7c137c01d0c2abfdca83471e;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:ea48bfc7c137c01d0c2abfdca83471e rr:graphMap _:c5231e0eb925d91d5e59d70bbbf3c9cb;
+  rr:template "example/{shoeId}".
+
+_:eba180a3ca71c350b0573f9669967370 rr:predicateObjectMap _:ac4662efa76248f4cfa07ff104b4b679;
+  rr:subjectMap _:afe95290e5ec0a422645cc13b125126;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:afe95290e5ec0a422645cc13b125126 rr:graphMap _:c62f6064ab975b8227b9acf12b93653e;
+  rr:template "example/{shoeId}".
+
+_:c7b54adbdd7038f71b9896d93511a787 rr:predicateObjectMap _:ac4662efa76248f4cfa07ff104b4b679;
+  rr:subjectMap _:c0cef77a4f6ad2184a6a10031d4b10ce;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:c0cef77a4f6ad2184a6a10031d4b10ce rr:graphMap _:c5231e0eb925d91d5e59d70bbbf3c9cb;
+  rr:template "example/{shoeId}".
+
+_:b7507a272519260b3bbb580fecf34c31 rr:predicateObjectMap _:a2218291d4811e93f5ae61517e71729c;
+  rr:subjectMap _:e485a6b93f0735c180677b93575cbaab;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:e485a6b93f0735c180677b93575cbaab rr:graphMap _:c62f6064ab975b8227b9acf12b93653e;
+  rr:template "example/{shoeId}".
+
+_:a1e616acaeb7d02233a702aa29ad0dd rr:predicateObjectMap _:a2218291d4811e93f5ae61517e71729c;
+  rr:subjectMap _:a199dc6abd6ee3967b93149055a1cddc;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:a199dc6abd6ee3967b93149055a1cddc rr:graphMap _:c5231e0eb925d91d5e59d70bbbf3c9cb;
+  rr:template "example/{shoeId}".
+
+_:d3686fd2feccdce498f017462837c02 rr:predicateObjectMap _:a8793feab25f15f8d121623ed1dca4a;
+  rr:subjectMap _:b44c6a05a4d59a9cc08b082c93a71277;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:b44c6a05a4d59a9cc08b082c93a71277 rr:graphMap _:c62f6064ab975b8227b9acf12b93653e;
+  rr:template "example/{shoeId}".
+
+_:e111ed66be3a46873fb74a02a734ae3 rr:predicateObjectMap _:a8793feab25f15f8d121623ed1dca4a;
+  rr:subjectMap _:bf9045c3c03f7ec2a7f3a5e3af037e38;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:bf9045c3c03f7ec2a7f3a5e3af037e38 rr:graphMap _:c5231e0eb925d91d5e59d70bbbf3c9cb;
+  rr:template "example/{shoeId}".
+
+_:c9f66202eceedf07d4f03a2b214f4161 rr:predicateObjectMap _:a592bc9f836bb11110279bc8b9d49566;
+  rr:subjectMap _:d0468a58b32ffb89d854a16b66d073d;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:d0468a58b32ffb89d854a16b66d073d rr:graphMap _:effd51454e12b9d7298296172863b2b4;
+  rr:template "example/{shoeId}".
+
+_:f63bc38f68db82acfc1fe9493833f8b3 rr:predicateObjectMap _:join_pom;
+  rr:subjectMap _:eabdf282213ce08b7ddeb559029c699c;
+  rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:eabdf282213ce08b7ddeb559029c699c rr:graphMap _:e7f3e2dd2c278d932c2d3a768fa231db;
+  rr:template "example/{shoeId}".
+
+_:af727626d20a17d7a1f6a468002e3665 rr:termType rr:IRI;
+  rr:template "example/{brand}".
+
+_:a592bc9f836bb11110279bc8b9d49566 rr:objectMap _:af727626d20a17d7a1f6a468002e3665;
+  rr:predicateMap _:a17789ad6753009233961bf3ed7be0a9.
+
+_:join_pom rr:objectMap _:join_om;
+  rr:predicateMap _:c9c62814248103ac9bf7addd4a5a0907.
+
+_:ac4662efa76248f4cfa07ff104b4b679 rr:objectMap _:f80e769100ea1cd7d77b5fa8138a825;
+  rr:predicateMap _:f6068fec4f120c06619f7322e4c6255.
+
+_:a2218291d4811e93f5ae61517e71729c rr:objectMap _:b8f10985058bbc4180140aa5aa6383b4;
+  rr:predicateMap _:f6068fec4f120c06619f7322e4c6255.
+
+_:c78b86bb22644ada0d72c38240b8702e rr:objectMap _:fa3b7826cc4044fa713bc5b6be5f9a6a;
+  rr:predicateMap _:fd7f82dfe19546e6f01573ff54216879.
+
+_:a8793feab25f15f8d121623ed1dca4a rr:objectMap _:e4f12a1a829360adc97c8f5b1f4c84c9;
+  rr:predicateMap _:e9db2fd262930c369217c9d8bfc8a946.
+
+_:a17789ad6753009233961bf3ed7be0a9 rr:constant <http://example.com/joinedBrand>.
+_:c9c62814248103ac9bf7addd4a5a0907 rr:constant <http://example.com/jcJoin>.
+_:f6068fec4f120c06619f7322e4c6255 rr:constant <http://example.com/price>.
+_:fd7f82dfe19546e6f01573ff54216879 rr:constant <http://example.com/name>.
+_:e95f3993e729c42d7f68d06d608cd256 rr:graphMap _:c5231e0eb925d91d5e59d70bbbf3c9cb.
+_:c5231e0eb925d91d5e59d70bbbf3c9cb rr:constant <http://example.com/ShoeGraph>.
+_:e95f3993e729c42d7f68d06d608cd256 rr:graphMap _:c62f6064ab975b8227b9acf12b93653e.
+_:c62f6064ab975b8227b9acf12b93653e rr:constant <http://example.com/DummyShoeGraph>.
+_:effd51454e12b9d7298296172863b2b4 rr:constant <http://example.com/JoinedGraph>.
+_:e7f3e2dd2c278d932c2d3a768fa231db rr:constant <http://example.com/JCJoinedGraph>.
+_:f1edfa3554abc94e5d31f701762d0192 rr:graphMap _:e72c2a885f558af4cda7fd653f4c7d82.
+_:e72c2a885f558af4cda7fd653f4c7d82 rr:constant <http://example.com/BrandGraph>.
+_:f1edfa3554abc94e5d31f701762d0192 rr:graphMap _:a0f0bd4b658310ebf3b3dfd4b34c2aaf.
+_:a0f0bd4b658310ebf3b3dfd4b34c2aaf rr:constant <http://example.com/DummyBrandGraph>.
+_:e4f12a1a829360adc97c8f5b1f4c84c9 rr:termType rr:IRI;
+  rr:constant <http://example.com/Shoe>.
+
+_:e9db2fd262930c369217c9d8bfc8a946 rr:termType rr:IRI;
+  rr:constant rdf:type.
+
+_:fa3b7826cc4044fa713bc5b6be5f9a6a rml:reference "brand".
+<http://example.com/ns#BrandMapping> rr:subjectMap _:f1edfa3554abc94e5d31f701762d0192.
+_:f1edfa3554abc94e5d31f701762d0192 rr:template "example/{brand}".
+<http://example.com/ns#BrandMapping> rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+_:b8f10985058bbc4180140aa5aa6383b4 rml:reference "avgPrice".
+_:f80e769100ea1cd7d77b5fa8138a825 rml:reference "price".
+_:ffc3e1113913b189eedc28c9f83d99c3 rr:child "henlo".
+_:join_om rr:joinCondition _:ffc3e1113913b189eedc28c9f83d99c3.
+_:ffc3e1113913b189eedc28c9f83d99c3 rr:parent "brand".
+_:join_om rr:parentTriplesMap <http://example.com/ns#BrandMapping>.
+<http://example.com/ns#ShoeMapping> rr:subjectMap _:e95f3993e729c42d7f68d06d608cd256.
+_:e95f3993e729c42d7f68d06d608cd256 rr:template "example/{shoeId}".
+<http://example.com/ns#ShoeMapping> rml:logicalSource <http://example.com/ns#LogicalSource>;
+  a rr:TriplesMap.
+
+<http://example.com/ns#LogicalSource> rml:referenceFormulation <http://semweb.mmlab.be/ns/ql#CSV>;
+  rml:source "shoes.csv".
+
