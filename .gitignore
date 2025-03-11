@@ -4,6 +4,7 @@ output/
 .vscode/
 .cmt.bkp
 
+*.ttl
 *.dot
 *.json
 
