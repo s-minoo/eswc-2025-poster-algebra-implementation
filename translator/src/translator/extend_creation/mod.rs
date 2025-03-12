@@ -35,9 +35,7 @@ pub fn create_extend_function(
             ))),
         }?;
         let value = match constant_o {
-            oxigraph::model::Term::NamedNode(named_node) => {
-                Ok(named_node.into_string())
-            }
+            oxigraph::model::Term::NamedNode(named_node) => Ok(named_node.into_string()),
             oxigraph::model::Term::Literal(literal) => Ok(literal.value().to_string()),
             var => Err(OxigraphErrorKind::GenericError(format!(
                 "object node of the rr:constant cannot be a blanknode {}",
@@ -94,6 +92,7 @@ pub fn create_extend_function(
         }
     }
 
+    // if blank node term type
     if is_term_type(
         term_map_subj,
         vocab::r2rml::CLASS::BLANKNODE
@@ -105,6 +104,7 @@ pub fn create_extend_function(
         result = Function::BlankNode {
             inner_function: Rc::new(result),
         };
+    // if  iri term type
     } else if is_term_type(
         term_map_subj,
         vocab::r2rml::CLASS::IRI.to_named_node().as_ref().into(),
@@ -114,9 +114,19 @@ pub fn create_extend_function(
             base_iri: None,
             inner_function: Rc::new(result),
         }
-    }
-
-    if let Ok(term_type) = get_object(
+    // if literal term type
+    } else if is_term_type(
+        term_map_subj,
+        vocab::r2rml::CLASS::LITERAL.to_named_node().as_ref().into(),
+        store,
+    ) {
+        result = Function::Literal {
+            inner_function: Rc::new(result),
+            dtype_function: None,
+            langtype_function: None,
+        }
+    // if datatype exists
+    } else if let Ok(term_type) = get_object(
         term_map_subj,
         vocab::r2rml::PROPERTY::DATATYPE.to_named_node().as_ref(),
         store,
@@ -129,6 +139,7 @@ pub fn create_extend_function(
             dtype_function,
             langtype_function: None,
         };
+    // if object map and rr:reference exists
     } else if is_object_map
         && get_object(
             term_map_subj,

@@ -1,7 +1,6 @@
 use std::path::{Path, PathBuf};
 use std::str::FromStr;
 use translator::io;
-use translator::normalizer::normalize_rml;
 use translator::translator::translate_normalized_rml;
 
 use clap::{arg, Command};
@@ -74,7 +73,7 @@ pub fn main() -> anyhow::Result<()> {
                             let parent_folder = file_path.parent().unwrap_or(Path::new("./"));
                             println!("Processing RML document: {}", file_path.to_string_lossy());
                             handle_file(parent_folder.to_path_buf(), &file_path)?;
-                            println!("{}", "=".repeat(10)); 
+                            println!("{}", "=".repeat(10));
                         }
                     }
                 }
@@ -88,15 +87,14 @@ pub fn main() -> anyhow::Result<()> {
 }
 
 fn handle_file(output_folder: PathBuf, file_name: &Path) -> Result<(), anyhow::Error> {
-    let output_normalized_file = output_folder.join("normalized.ttl");
     let output_plan_json = output_folder.join("plan.json");
     let output_plan_dot = output_folder.join("plan.dot");
     let output_plan_pretty_dot = output_folder.join("plan_pretty.dot");
 
     let store = io::read_rml_document(file_name)?;
-    let normalized_store = normalize_rml(&store)?;
+    //let normalized_store = normalize_rml(&store)?;
 
-    let mut plan = translate_normalized_rml(normalized_store)?;
+    let mut plan = translate_normalized_rml(&store)?;
 
     println!("Writing plan.dot file....");
     plan.write(output_plan_dot).unwrap();
@@ -107,6 +105,5 @@ fn handle_file(output_folder: PathBuf, file_name: &Path) -> Result<(), anyhow::E
     println!("Writing plan.json file....");
     plan.write_json(output_plan_json).unwrap();
 
-    io::dump_oxigraph_store(normalized_store, output_normalized_file.as_path())?;
     Ok(())
 }

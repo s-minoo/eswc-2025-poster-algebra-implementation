@@ -44,19 +44,13 @@ fn shortcut_expand_class(store: &Store) -> Result<&Store, OxigraphError> {
     )?;
 
     if cfg!(debug_assertions) {
-        crate::io::dump_oxigraph_store(
-            store,
-            Path::new("sm_class_constant_expand.ttl"),
-        )
-        .unwrap();
+        crate::io::dump_oxigraph_store(store, Path::new("sm_class_constant_expand.ttl")).unwrap();
     }
 
     Ok(store)
 }
 
-fn shortcut_expand_constant_value(
-    store: &Store,
-) -> Result<&Store, OxigraphError> {
+fn shortcut_expand_constant_value(store: &Store) -> Result<&Store, OxigraphError> {
     store.update(
         "
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
@@ -72,19 +66,19 @@ fn shortcut_expand_constant_value(
         INSERT {
              ?tm rr:subjectMap [ 
                 rr:constant ?sm_constant
-             ]
+             ].
 
              ?pompm rr:predicateMap [
                 rr:constant ?pm_constant
-             ]
+             ].
 
              ?pomom rr:objectMap [
                 rr:constant ?om_constant
-             ]
+             ].
 
              ?termMap rr:graphMap [
                 rr:constant ?gm_constant
-             ]
+             ].
         }
         WHERE {
                     { ?tm rr:subject ?sm_constant . } 
@@ -95,19 +89,13 @@ fn shortcut_expand_constant_value(
         ",
     )?;
     if cfg!(debug_assertions) {
-        crate::io::dump_oxigraph_store(
-            store,
-            Path::new("all_constant_expand.ttl"),
-        )
-        .unwrap();
+        crate::io::dump_oxigraph_store(store, Path::new("all_constant_expand.ttl")).unwrap();
     }
 
     Ok(store)
 }
 
-fn deduplicate_multi_pom_to_singleton(
-    store: &Store,
-) -> Result<&Store, OxigraphError> {
+fn deduplicate_multi_pom_to_singleton(store: &Store) -> Result<&Store, OxigraphError> {
     store.update(
         "
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
@@ -129,8 +117,8 @@ fn deduplicate_multi_pom_to_singleton(
         }
         WHERE {
             ?tm rr:predicateObjectMap ?pom. 
-            ?pom rr:predicateMap ?pm. 
-            ?pom rr:objectMap ?om. 
+            ?pom rr:predicateMap ?pm; 
+                 rr:objectMap ?om. 
             
             OPTIONAL {
                 ?pom rr:graphMap ?gm. 
@@ -141,11 +129,7 @@ fn deduplicate_multi_pom_to_singleton(
     )?;
 
     if cfg!(debug_assertions) {
-        crate::io::dump_oxigraph_store(
-            store,
-            Path::new("multi_pom_to_singleton.ttl"),
-        )
-        .unwrap();
+        crate::io::dump_oxigraph_store(store, Path::new("multi_pom_to_singleton.ttl")).unwrap();
     }
 
     Ok(store)
@@ -183,18 +167,12 @@ fn replace_self_ref_maps(store: &Store) -> Result<&Store, OxigraphError> {
     )?;
 
     if cfg!(debug_assertions) {
-        crate::io::dump_oxigraph_store(
-            store,
-            Path::new("ref_obj_map_replace.ttl"),
-        )
-        .unwrap();
+        crate::io::dump_oxigraph_store(store, Path::new("ref_obj_map_replace.ttl")).unwrap();
     }
     Ok(store)
 }
 
-fn duplicate_tm_with_mulitple_poms(
-    store: &Store,
-) -> Result<&Store, OxigraphError> {
+fn duplicate_tm_with_mulitple_poms(store: &Store) -> Result<&Store, OxigraphError> {
     store.update(
         "
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
@@ -221,11 +199,7 @@ fn duplicate_tm_with_mulitple_poms(
     )?;
 
     if cfg!(debug_assertions) {
-        crate::io::dump_oxigraph_store(
-            store,
-            Path::new("duplicate_tm_multi_pom.ttl"),
-        )
-        .unwrap();
+        crate::io::dump_oxigraph_store(store, Path::new("duplicate_tm_multi_pom.ttl")).unwrap();
     }
 
     Ok(store)
@@ -239,6 +213,7 @@ fn ensure_tm_smgm_or_pomgm(store: &Store) -> Result<&Store, OxigraphError> {
         PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
         
         DELETE { 
+            ?tm rr:predicateObjectMap ?pom . 
             ?pom rr:graphMap ?pom_gm .
         }
         INSERT {
@@ -259,12 +234,6 @@ fn ensure_tm_smgm_or_pomgm(store: &Store) -> Result<&Store, OxigraphError> {
                 rr:predicateObjectMap ?pom .
 
             ?pom rr:graphMap ?pom_gm . 
-            OPTIONAL {?sm rr:graphMap ?sm_gm .  }
-
-            FILTER EXISTS{
-                ?pom rr:graphMap ?pom_gm2 . 
-                FILTER ( bound(?sm_gm) || ?pom_gm != ?pom_gm2 )
-            } 
 
             OPTIONAL { ?sm rr:reference ?ref. }
             OPTIONAL { ?sm rr:template ?template. }
@@ -275,25 +244,20 @@ fn ensure_tm_smgm_or_pomgm(store: &Store) -> Result<&Store, OxigraphError> {
     )?;
 
     if cfg!(debug_assertions) {
-        crate::io::dump_oxigraph_store(store, Path::new("push_graph_map.ttl"))
-            .unwrap();
+        crate::io::dump_oxigraph_store(store, Path::new("push_graph_map.ttl")).unwrap();
     }
     Ok(store)
 }
 
-pub fn triples_maps_one_graph_map(
-    store: &Store,
-) -> Result<&Store, OxigraphError> {
+pub fn triples_maps_one_graph_map(store: &Store) -> Result<&Store, OxigraphError> {
     let query = "
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
         PREFIX rr: <http://www.w3.org/ns/r2rml#> 
         PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
         
         DELETE { 
-            ?tm a rr:TriplesMap; 
-                rml:logicalSource ?ls; 
-                rr:subjectMap ?sm; 
-                rr:predicateObjectMap ?pom .
+            ?tm rr:predicateObjectMap ?pom .
+            ?sm rr:graphMap ?sm_gm .
         }
         INSERT {
             [] a rr:TriplesMap; 
@@ -312,10 +276,9 @@ pub fn triples_maps_one_graph_map(
                 rr:subjectMap ?sm; 
                 rr:predicateObjectMap ?pom .
             ?sm rr:graphMap ?sm_gm . 
-            FILTER EXISTS {
-                ?sm rr:graphMap ?sm_gm2. 
-                FILTER (?sm_gm != ?sm_gm2 )
-            }
+            ?sm rr:graphMap ?sm_gm2 .
+            FILTER( ?sm_gm != ?sm_gm2 )
+
             OPTIONAL { ?sm rr:reference ?ref. }
             OPTIONAL { ?sm rr:template ?template. }
             OPTIONAL { ?sm rr:constant ?const. }
@@ -326,8 +289,7 @@ pub fn triples_maps_one_graph_map(
     store.update(query)?;
 
     if cfg!(debug_assertions) {
-        crate::io::dump_oxigraph_store(store, Path::new("tm_one_gm.ttl"))
-            .unwrap();
+        crate::io::dump_oxigraph_store(store, Path::new("tm_one_gm.ttl")).unwrap();
     }
     Ok(store)
 }
