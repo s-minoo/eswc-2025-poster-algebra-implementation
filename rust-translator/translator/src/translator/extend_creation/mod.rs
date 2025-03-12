@@ -16,6 +16,7 @@ pub fn create_extend_function(
     store: &Store,
     query_attr_map: &QueryAttrMap,
     is_object_map: bool,
+    base_iri: &Option<String>,
 ) -> Result<Function> {
     //CHANGE THIS
     let mut result = Function::Nop;
@@ -73,7 +74,7 @@ pub fn create_extend_function(
 
         for s_i in split_template {
             let (is_query, extracted_string) = get_is_query_str_pair(&s_i);
-            let mut function: Function;
+            let function: Function;
             if is_query {
                 let value = query_attr_map.get(extracted_string).unwrap().to_string();
                 function = Function::Reference { value };
@@ -111,7 +112,7 @@ pub fn create_extend_function(
         store,
     ) {
         result = Function::Iri {
-            base_iri: None,
+            base_iri: base_iri.clone(),
             inner_function: Rc::new(result),
         }
     // if literal term type
@@ -155,7 +156,7 @@ pub fn create_extend_function(
         };
     } else {
         result = Function::Iri {
-            base_iri: None,
+            base_iri: base_iri.clone(),
             inner_function: Rc::new(result),
         }
     }

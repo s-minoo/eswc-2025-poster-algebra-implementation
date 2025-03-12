@@ -23,7 +23,7 @@ use vocab::ToString;
 
 use crate::{FromVocab, GRAPH_ATTR, OBJECT_ATTR, PREDICATE_ATTR, SUBJECT_ATTR};
 
-pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
+pub fn translate_normalized_rml(store: &Store, base_iri: Option<String>) -> Result<Plan<Sunk>> {
     let mut plan = Plan::new();
 
     let mut previous_plan_opt: Option<Plan<Processed>> = None;
@@ -61,7 +61,8 @@ pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
             store,
         )?;
         let subject_ref = termref_to_subjref(subject.as_ref())?;
-        let subject_function = create_extend_function(subject_ref, store, &query_attr_map, false)?;
+        let subject_function =
+            create_extend_function(subject_ref, store, &query_attr_map, false, &base_iri)?;
         let subj_extend = operator::Operator::ExtendOp {
             config: Extend {
                 extend_pairs: HashMap::from([(SUBJECT_ATTR.to_string(), subject_function)]),
@@ -84,6 +85,7 @@ pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
             store,
             &query_attr_map,
             false,
+            &base_iri,
         )?;
         let pred_extend = Operator::ExtendOp {
             config: Extend {
@@ -101,6 +103,7 @@ pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
             processed_plan,
             predicate_object_map_subjref,
             &query_attr_map,
+            &base_iri
         )?;
 
         let sm_gm_res = get_object(
@@ -121,6 +124,7 @@ pub fn translate_normalized_rml(store: &Store) -> Result<Plan<Sunk>> {
                 store,
                 &query_attr_map,
                 false,
+                &base_iri,
             )?
         } else {
             Function::TypedConstant {
@@ -187,6 +191,7 @@ fn process_object_map(
     mut processed_plan: Plan<Processed>,
     predicate_object_map_subjref: SubjectRef,
     child_query_attr_map: &HashMap<String, String>,
+    base_iri: &Option<String>,
 ) -> Result<Plan<Processed>, anyhow::Error> {
     let object = get_object(
         predicate_object_map_subjref,
@@ -232,6 +237,7 @@ fn process_object_map(
             store,
             &parent_query_attr_map,
             false,
+            base_iri
         )?;
 
         let extend_operator = Operator::ExtendOp {
@@ -244,7 +250,7 @@ fn process_object_map(
             .unwrap())
     } else {
         let extend_func =
-            create_extend_function(object_subjref, store, child_query_attr_map, true)?;
+            create_extend_function(object_subjref, store, child_query_attr_map, true, base_iri)?;
         let extend_operator = Operator::ExtendOp {
             config: Extend {
                 extend_pairs: HashMap::from([(OBJECT_ATTR.to_string(), extend_func)]),

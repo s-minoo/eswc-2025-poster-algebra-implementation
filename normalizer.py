@@ -311,7 +311,14 @@ def handle_file(file: str):
         logger.info("Processing file " + file)
         base_path = file[0:-4]
         output_file = base_path + ".normalized.ttl"
+        base_iri = None
 
+        with open(file, "r") as f: 
+            for line in  f.readlines(): 
+                if "@base" in line: 
+                    base_iri = line
+                pass
+            pass
         try:
             os.remove(output_file)
         except Exception as e:
@@ -329,7 +336,11 @@ def handle_file(file: str):
         g.serialize(output_file)
         logger.info("Done normalizing file " + file)
 
-        content = "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
+        content = ""
+        if base_iri is not None: 
+            content = base_iri  + "\n"
+
+        content = content + "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
         with open(output_file, "r") as f:
             content = content + f.read()
             pass

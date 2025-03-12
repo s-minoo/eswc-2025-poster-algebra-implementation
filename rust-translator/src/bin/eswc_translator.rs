@@ -1,4 +1,8 @@
+use regex::Regex;
+use std::fs::File;
+use std::io::{BufRead, BufReader};
 use std::path::{Path, PathBuf};
+use std::process::exit;
 use std::str::FromStr;
 use translator::io;
 use translator::translator::translate_normalized_rml;
@@ -94,7 +98,9 @@ fn handle_file(output_folder: PathBuf, file_name: &Path) -> Result<(), anyhow::E
     let store = io::read_rml_document(file_name)?;
     //let normalized_store = normalize_rml(&store)?;
 
-    let mut plan = translate_normalized_rml(&store)?;
+    let base_iri = get_base_iri(file_name);
+    println!("Base IRI is {:#?}", base_iri);
+    let mut plan = translate_normalized_rml(&store, base_iri)?;
 
     println!("Writing plan.dot file....");
     plan.write(output_plan_dot).unwrap();
@@ -106,4 +112,15 @@ fn handle_file(output_folder: PathBuf, file_name: &Path) -> Result<(), anyhow::E
     plan.write_json(output_plan_json).unwrap();
 
     Ok(())
+}
+
+fn get_base_iri(file_name: &Path) -> Option<String> {
+    let file = File::open(file_name).unwrap();
+    let regex = Regex::new(r"<(.*)>").unwrap();
+    BufReader::new(file)
+        .lines()
+        .map_while(Result::ok)
+        .filter(|line| line.to_lowercase().contains("@base"))
+        .filter_map(|line| regex.captures(&line).map(|mat| mat[1].to_string()))
+        .next()
 }
