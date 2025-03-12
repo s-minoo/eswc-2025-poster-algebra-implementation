@@ -214,7 +214,7 @@ fn process_object_map(
 
         let mut joined_plan = join(processed_plan.into(), sourced_plan.into())
             .unwrap()
-            .alias("join")
+            .alias("")
             .unwrap()
             .where_by(join_condition_pairs.iter().map(|p| p.0).collect())
             .unwrap()
