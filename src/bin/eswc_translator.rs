@@ -68,8 +68,8 @@ pub fn main() -> anyhow::Result<()> {
                     .filter(|path| path.is_file());
 
                 for file_path in files {
-                    if let Some(ext) = file_path.extension() {
-                        if ext == "ttl" {
+                    if let Some(file_name) = file_path.file_name() {
+                        if file_name.to_string_lossy().contains("normalized.ttl") {
                             let parent_folder = file_path.parent().unwrap_or(Path::new("./"));
                             println!("Processing RML document: {}", file_path.to_string_lossy());
                             handle_file(parent_folder.to_path_buf(), &file_path)?;
