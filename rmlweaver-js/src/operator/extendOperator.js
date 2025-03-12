@@ -29,11 +29,6 @@ export class ExtendOp extends Operator {
             case 'Iri':
                 return (obj) => {
                     innerFunction(obj)
-                    if (key == "subject_attr") {
-                        console.log("subject extend operation:")
-                        console.dir(obj)
-                        console.log("")
-                    }
                     irify(extend_func, obj, key)
                 }
 
@@ -243,7 +238,11 @@ function irify(extend_func, obj, key) {
         iri_value = obj[key]
     }
     if (iri_value.search(" ") >= 0) {
-        obj[key] = new Iri(iri_value.replace(" ", "%20"))
+        obj[key] = new Iri(encodeURI(iri_value)
+                        .replace(',', '%2C')
+                        .replace('(', '%28')
+                        .replace(')', '%29') // Encode URI, Maybe manually in the future to match RML mapper
+                        )
     } else {
         obj[key] = new Iri(iri_value)
     }
