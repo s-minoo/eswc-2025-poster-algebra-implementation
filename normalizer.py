@@ -151,6 +151,105 @@ def multiple_pm_om_to_pom_singleton_pm_om(g: Graph):
     end_log(g)
     pass
 
+def replace_self_reference_obj_map(g:Graph):
+    logger.debug("Replcae self referencing object map with a simple predicate object map")
+    g.update("""
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+        PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+        
+        DELETE { 
+            ?om rr:parentTriplesMap ?ptm 
+        }
+        INSERT {
+            ?om rml:reference ?ref ; 
+                rr:template ?template ;
+                rr:constant ?const; 
+                rr:termType rr:IRI 
+        }
+        WHERE {
+            ?om rr:parentTriplesMap ?ptm . 
+            ?ptm rr:subjectMap ?sm . 
+            OPTIONAL { ?sm rr:reference ?ref. }
+            OPTIONAL { ?sm rr:template ?template. }
+            OPTIONAL { ?sm rr:constant ?const. }
+            FILTER NOT EXISTS {
+                ?om rr:joinCondition ?jc
+            }
+        }
+             """)
+    end_log(g)
+    pass
+
+def tm_multiple_pom_to_single_pom(g:Graph):
+    logger.debug("Ensure triples maps only have a single predicate object map")
+    g.update("""
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+        PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+        
+        DELETE { 
+            ?tm rr:predicateObjectMap ?pom
+        }
+        INSERT {
+            [] a rr:TriplesMap; 
+                rml:logicalSource ?ls; 
+                rr:subjectMap ?sm; 
+                rr:predicateObjectMap ?pom 
+
+        }
+        WHERE {
+            ?tm rml:logicalSource ?ls; 
+                rr:subjectMap ?sm; 
+                rr:predicateObjectMap ?pom 
+        }
+             """)
+    end_log(g)
+    pass
+
+def push_pom_gm_to_sm(g:Graph):
+    logger.debug("Pushing graph maps in predicate object maps to subject maps")
+    g.update("""
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+        PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+        
+        DELETE { 
+            ?tm rr:predicateObjectMap ?pom . 
+            ?pom rr:graphMap ?pom_gm .
+        }
+        INSERT {
+            [] a rr:TriplesMap; 
+               rml:logicalSource ?ls; 
+               rr:subjectMap [
+                   rr:reference ?ref; 
+                   rr:template ?template; 
+                   rr:constant ?const; 
+                   rr:termType ?ttype; 
+                   rr:graphMap ?pom_gm;
+                   rr:graphMap ?sm_gm 
+               ]; 
+               rr:predicateObjectMap ?pom. 
+        }
+        WHERE {
+            ?tm rml:logicalSource ?ls; 
+                rr:subjectMap ?sm; 
+                rr:predicateObjectMap ?pom .
+
+            ?pom rr:graphMap ?pom_gm . 
+            OPTIONAL {?sm rr:graphMap ?sm_gm .}
+
+            OPTIONAL { ?sm rr:reference ?ref. }
+            OPTIONAL { ?sm rr:template ?template. }
+            OPTIONAL { ?sm rr:constant ?const. }
+            OPTIONAL { ?sm rr:termType ?ttype. }
+        }
+             """)
+    end_log(g)
+    pass
+
 
 def handle_file(file: str):
 
@@ -159,6 +258,9 @@ def handle_file(file: str):
         class_shortcut_expand(g)
         shortcut_expand_to_constant_tm(g)
         multiple_pm_om_to_pom_singleton_pm_om(g)
+        replace_self_reference_obj_map(g)
+        tm_multiple_pom_to_single_pom(g)
+        push_pom_gm_to_sm(g)
         pass
 
     pass
