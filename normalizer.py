@@ -11,7 +11,8 @@ Description: Normalize the input RML documents
 import argparse
 import logging
 import os
-from types import NoneType
+import sys
+from typing import Literal
 
 import rdflib
 from rdflib.graph import Graph
@@ -25,15 +26,21 @@ def cmdline_args():
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
-    p.add_argument("-f, --file", type=str, help="input RML document file")
+    p.add_argument("-f", "--file", type=str, help="input RML document file")
     p.add_argument("--folder", type=str, help="the folder containing RML documents")
     p.add_argument("-d", "--debug", action="store_true", help="toggle debug mode")
 
     return p.parse_args()
 
 
+def end_log(g: Graph):
+    logger.debug("\n" + g.serialize())
+    logger.debug("=" * 20)
+    pass
+
+
 def class_shortcut_expand(g: Graph):
-    logger.debug("Executing class shortcut expand query ")
+    logger.debug("Expand subject map's class shortcut")
     g.update(
         """
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
@@ -59,18 +66,99 @@ def class_shortcut_expand(g: Graph):
 
              """
     )
-    logger.debug("")
+    end_log(g)
+    pass
+
+
+def shortcut_expand_to_constant_tm(g: Graph):
+    logger.debug("Expand shortcuts to constant term maps")
+    g.update(
+        """
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+        DELETE { 
+            ?tm rr:subject ?sm_constant.
+            ?pompm rr:predicate ?pm_constant.
+            ?pomom rr:object ?om_constant. 
+            ?termMap rr:graph ?gm_constant.
+        }
+        INSERT {
+             ?tm rr:subjectMap [ 
+                rr:constant ?sm_constant
+             ]. 
+
+             ?pompm rr:predicateMap [
+                rr:constant ?pm_constant
+             ]. 
+
+             ?pomom rr:objectMap [
+                rr:constant ?om_constant
+             ].
+
+             ?termMap rr:graphMap [
+                rr:constant ?gm_constant
+             ].
+        }
+        WHERE {
+                    { ?tm rr:subject ?sm_constant . } 
+            UNION   { ?pompm rr:predicate ?pm_constant . } 
+            UNION   { ?pomom rr:object ?om_constant . } 
+            UNION   { ?termMap rr:graph ?gm_constant . } 
+        }
+        """
+    )
+    end_log(g)
+    pass
+
+
+def multiple_pm_om_to_pom_singleton_pm_om(g: Graph):
+    logger.debug(
+        "Make predicate object maps have only one predicate map and one object map"
+    )
+    g.update(
+        """
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+        
+        DELETE { 
+            ?tm rr:predicateObjectMap ?pom. 
+            ?pom rr:predicateMap ?pm; 
+                 rr:objectMap ?om; 
+                 rr:graphMap ?gm. 
+        }
+        INSERT {
+            ?tm rr:predicateObjectMap [
+                rr:predicateMap ?pm; 
+                rr:objectMap ?om; 
+                rr:graphMap ?gm
+            ]
+        }
+        WHERE {
+            ?tm rr:predicateObjectMap ?pom. 
+            ?pom rr:predicateMap ?pm; 
+                 rr:objectMap ?om. 
+            
+            OPTIONAL {
+                ?pom rr:graphMap ?gm. 
+            }
+        }
+
+             """
+    )
+
+    end_log(g)
     pass
 
 
 def handle_file(file: str):
 
     if file.endswith(".ttl"):
-        with open(file) as f:
-            g = rdflib.Graph().parse(file)
-            class_shortcut_expand(g)
-
-            pass
+        g = rdflib.Graph().parse(file)
+        class_shortcut_expand(g)
+        shortcut_expand_to_constant_tm(g)
+        multiple_pm_om_to_pom_singleton_pm_om(g)
         pass
 
     pass
@@ -88,13 +176,31 @@ def handle_folder(folder: str):
     pass
 
 
+def logging_setup(log_level: int):
+    format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    formatter = logging.Formatter(format)
+
+    std_handler = logging.StreamHandler()
+    std_handler.setLevel(log_level)
+    std_handler.setFormatter(formatter)
+
+    file_handler = logging.FileHandler(filename="log_normalizer.log", mode="w+")
+    file_handler.setLevel(log_level)
+    file_handler.setFormatter(formatter)
+
+    logger.setLevel(log_level)
+    logger.addHandler(std_handler)
+    logger.addHandler(file_handler)
+    pass
+
+
 def main():
     args = cmdline_args()
     log_level = logging.INFO
     if args.debug:
         log_level = logging.DEBUG
 
-    logging.basicConfig(level=log_level)
+    logging_setup(log_level)
 
     if args.file is not None:
         handle_file(args.file)
