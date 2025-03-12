@@ -11,6 +11,7 @@ Description: Normalize the input RML documents
 import argparse
 import logging
 import os
+import pathlib
 import sys
 from typing import Literal
 
@@ -151,9 +152,13 @@ def multiple_pm_om_to_pom_singleton_pm_om(g: Graph):
     end_log(g)
     pass
 
-def replace_self_reference_obj_map(g:Graph):
-    logger.debug("Replcae self referencing object map with a simple predicate object map")
-    g.update("""
+
+def replace_self_reference_obj_map(g: Graph):
+    logger.debug(
+        "Replcae self referencing object map with a simple predicate object map"
+    )
+    g.update(
+        """
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
         PREFIX rr: <http://www.w3.org/ns/r2rml#> 
@@ -178,13 +183,16 @@ def replace_self_reference_obj_map(g:Graph):
                 ?om rr:joinCondition ?jc
             }
         }
-             """)
+             """
+    )
     end_log(g)
     pass
 
-def tm_multiple_pom_to_single_pom(g:Graph):
+
+def tm_multiple_pom_to_single_pom(g: Graph):
     logger.debug("Ensure triples maps only have a single predicate object map")
-    g.update("""
+    g.update(
+        """
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
         PREFIX rr: <http://www.w3.org/ns/r2rml#> 
@@ -205,13 +213,16 @@ def tm_multiple_pom_to_single_pom(g:Graph):
                 rr:subjectMap ?sm; 
                 rr:predicateObjectMap ?pom 
         }
-             """)
+             """
+    )
     end_log(g)
     pass
 
-def push_pom_gm_to_sm(g:Graph):
+
+def push_pom_gm_to_sm(g: Graph):
     logger.debug("Pushing graph maps in predicate object maps to subject maps")
-    g.update("""
+    g.update(
+        """
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
         PREFIX rr: <http://www.w3.org/ns/r2rml#> 
         PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
@@ -246,7 +257,51 @@ def push_pom_gm_to_sm(g:Graph):
             OPTIONAL { ?sm rr:constant ?const. }
             OPTIONAL { ?sm rr:termType ?ttype. }
         }
-             """)
+             """
+    )
+    end_log(g)
+    pass
+
+
+def multiple_sm_gm_to_single_sm_gm(g: Graph):
+    logger.debug("Final step of flattening subject map's graph maps ")
+    g.update(
+        """
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+        PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+        
+        DELETE { 
+            ?tm rr:predicateObjectMap ?pom .
+            ?sm rr:graphMap ?sm_gm .
+        }
+        INSERT {
+            [] a rr:TriplesMap; 
+               rml:logicalSource ?ls; 
+               rr:subjectMap [
+                   rr:reference ?ref; 
+                   rr:template ?template; 
+                   rr:constant ?const; 
+                   rr:termType ?ttype; 
+                   rr:graphMap ?sm_gm
+               ]; 
+               rr:predicateObjectMap ?pom. 
+        }
+        WHERE {
+            ?tm rml:logicalSource ?ls; 
+                rr:subjectMap ?sm; 
+                rr:predicateObjectMap ?pom .
+            ?sm rr:graphMap ?sm_gm . 
+            ?sm rr:graphMap ?sm_gm2 .
+            FILTER( ?sm_gm != ?sm_gm2 )
+
+            OPTIONAL { ?sm rr:reference ?ref. }
+            OPTIONAL { ?sm rr:template ?template. }
+            OPTIONAL { ?sm rr:constant ?const. }
+            OPTIONAL { ?sm rr:termType ?ttype. }
+        }
+             """
+    )
     end_log(g)
     pass
 
@@ -254,6 +309,15 @@ def push_pom_gm_to_sm(g:Graph):
 def handle_file(file: str):
 
     if file.endswith(".ttl"):
+        logger.info("Processing file " + file)
+        base_path = file[0:-4]
+        output_file = base_path + ".normalized.ttl"
+
+        try:
+            os.remove(output_file)
+        except Exception as e:
+            pass
+
         g = rdflib.Graph().parse(file)
         class_shortcut_expand(g)
         shortcut_expand_to_constant_tm(g)
@@ -261,6 +325,24 @@ def handle_file(file: str):
         replace_self_reference_obj_map(g)
         tm_multiple_pom_to_single_pom(g)
         push_pom_gm_to_sm(g)
+        multiple_sm_gm_to_single_sm_gm(g)
+
+        g.serialize(output_file)
+        logger.info("Done normalizing file " + file)
+
+        content = "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
+        with open(output_file,'r') as f:
+            content = content +  f.read()
+            pass
+
+        with open(output_file, 'w') as f:
+            f.write(content)
+            pass
+
+        logger.info("Normalized file written to"  + output_file)
+        
+        
+
         pass
 
     pass
