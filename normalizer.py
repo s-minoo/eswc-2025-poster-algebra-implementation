@@ -13,7 +13,7 @@ import logging
 import os
 import pathlib
 import sys
-from typing import Literal
+from typing import List, Literal
 
 import rdflib
 from rdflib.graph import Graph
@@ -145,7 +145,6 @@ def multiple_pm_om_to_pom_singleton_pm_om(g: Graph):
                 ?pom rr:graphMap ?gm. 
             }
         }
-
              """
     )
 
@@ -331,32 +330,37 @@ def handle_file(file: str):
         logger.info("Done normalizing file " + file)
 
         content = "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
-        with open(output_file,'r') as f:
-            content = content +  f.read()
+        with open(output_file, "r") as f:
+            content = content + f.read()
             pass
 
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             f.write(content)
             pass
 
-        logger.info("Normalized file written to"  + output_file)
-        
-        
+        logger.info("Normalized file written to" + output_file)
 
         pass
 
     pass
 
 
-def handle_folder(folder: str):
+def collect_files(folder: str) -> List[str]:
+    acc = []
     for root, dirs, files in os.walk(folder):
         for file in files:
-            handle_file(os.path.join(root, file))
+            acc.append(os.path.join(root, file))
             pass
         for dir in dirs:
-            handle_folder(os.path.join(root, dir))
+            acc.extend(collect_files(os.path.join(root, dir)))
             pass
         pass
+    return acc
+
+
+def handle_folder(folder: str):
+    for file in collect_files(folder):
+        handle_file(file)
     pass
 
 
