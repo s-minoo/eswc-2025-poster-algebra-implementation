@@ -1,6 +1,12 @@
 <a name="readme-top"></a>
 
 
+## About 
+
+This repo contains 3 independent modules for executing the mappings of an 
+RML document using algebraic expressions. 
+
+
 ## Prerequisites
 
 To compile the project on your own, you'll need to have
@@ -17,6 +23,11 @@ For the visualization of the generated mapping plans, you'll need
 python version >= 3.10 and the following packages:
 
 1. graphviz
+
+
+### Python requirements 
+
+For running the normalz
 
 ## Running
 
