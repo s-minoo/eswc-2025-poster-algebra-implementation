@@ -16,9 +16,9 @@ To compile the project on your own, you'll need to have
 
 For Linux-based users:
 
-  ```sh
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  ```
+```sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
 
 For the visualization of the generated mapping plans, you'll need
 python version >= 3.10 and the following packages:
@@ -35,7 +35,16 @@ rdflib==6.1.1
 
 ## Testing
 
+The test cases reside inside the folder `rmlweaver-js/test` split into two
+folders according to the format of the input data, either CSV or JSON.
+The test cases are drawn from the website of [https://rml.io/test-cases/](https://rml.io/test-cases/)
 
+
+Test cases can be run as follows: 
+
+1. Navigate to the folder `rmlweaver-js`
+
+2. Run `npm test`
 
 ## Running
 
@@ -62,22 +71,25 @@ python3 normalizer.py -h
    cargo build --release
    ```
 2. Run the CLI translator app from the compiled translator binary
+
    ```sh
    cd ./target/release/
    ./eswc_translator  file  <NORMALIZED_RML_DOCUMENT>
    ```
+
    For more information/options of CLI app:
+
    ```sh
    ./eswc_translator  -h
    ```
 
-4. A dot file will be generated named "plan.dot"
+3. A dot file will be generated named "plan.dot"
 
-5. (Optional) Visualize the created mapping plan
+4. (Optional) Visualize the created mapping plan
    ```sh
    dot -Tpng {generated dot file} > output.png
    ```
-6. (Optional) Simple plain text format of the mapping plan for parsing
+5. (Optional) Simple plain text format of the mapping plan for parsing
    ```sh
    dot -Tplain {generated dot file} > output.txt
    ```
@@ -86,10 +98,10 @@ python3 normalizer.py -h
 
 1. Run npm command to execute the mapping engine for the given mapping plan in
    dot format
+
 ```sh
 npm run execute_dot <Dot file>
 ```
-
 
 ## Acknowledgement
 
