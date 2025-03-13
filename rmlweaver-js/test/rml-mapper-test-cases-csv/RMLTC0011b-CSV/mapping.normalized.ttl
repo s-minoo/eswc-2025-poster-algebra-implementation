@@ -1,0 +1,65 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/LinkMap_1_2> a rr:TriplesMap ;
+    rml:logicalSource _:nda181b6422a544d6843fb6d0de454231b13 ;
+    rr:subjectMap _:nda181b6422a544d6843fb6d0de454231b14 .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:nda181b6422a544d6843fb6d0de454231b1 ;
+    rr:subjectMap _:nda181b6422a544d6843fb6d0de454231b2 .
+
+<http://example.com/base/TriplesMap2> a rr:TriplesMap ;
+    rml:logicalSource _:nda181b6422a544d6843fb6d0de454231b7 ;
+    rr:subjectMap _:nda181b6422a544d6843fb6d0de454231b8 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nda181b6422a544d6843fb6d0de454231b7 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "ID" ] ;
+            rr:predicateMap [ rr:constant ex:id ] ] ;
+    rr:subjectMap _:nda181b6422a544d6843fb6d0de454231b8 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nda181b6422a544d6843fb6d0de454231b13 ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:template "http://example.com/sport/{ID_Sport}" ] ;
+            rr:predicateMap [ rr:constant ex:plays ] ] ;
+    rr:subjectMap _:nda181b6422a544d6843fb6d0de454231b14 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nda181b6422a544d6843fb6d0de454231b7 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Description" ] ;
+            rr:predicateMap [ rr:constant ex:description ] ] ;
+    rr:subjectMap _:nda181b6422a544d6843fb6d0de454231b8 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nda181b6422a544d6843fb6d0de454231b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "LastName" ] ;
+            rr:predicateMap [ rr:constant ex:lastName ] ] ;
+    rr:subjectMap _:nda181b6422a544d6843fb6d0de454231b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nda181b6422a544d6843fb6d0de454231b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "FirstName" ] ;
+            rr:predicateMap [ rr:constant ex:firstName ] ] ;
+    rr:subjectMap _:nda181b6422a544d6843fb6d0de454231b2 .
+
+_:nda181b6422a544d6843fb6d0de454231b13 rml:referenceFormulation ql:CSV ;
+    rml:source "student_sport.csv" .
+
+_:nda181b6422a544d6843fb6d0de454231b14 rr:template "http://example.com/student/{ID_Student}" .
+
+_:nda181b6422a544d6843fb6d0de454231b1 rml:referenceFormulation ql:CSV ;
+    rml:source "student.csv" .
+
+_:nda181b6422a544d6843fb6d0de454231b2 rr:template "http://example.com/student/{ID}" .
+
+_:nda181b6422a544d6843fb6d0de454231b7 rml:referenceFormulation ql:CSV ;
+    rml:source "sport.csv" .
+
+_:nda181b6422a544d6843fb6d0de454231b8 rr:template "http://example.com/sport/{ID}" .
+

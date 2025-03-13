@@ -1,0 +1,59 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n43e50602fe104a5ca3e782f13b44bcd0b1 ;
+    rr:subjectMap _:n43e50602fe104a5ca3e782f13b44bcd0b2,
+        _:n43e50602fe104a5ca3e782f13b44bcd0b3 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n43e50602fe104a5ca3e782f13b44bcd0b1 ;
+    rr:predicateObjectMap _:Na8030fc590c44b9d94768cd15fe49e8b ;
+    rr:subjectMap _:n43e50602fe104a5ca3e782f13b44bcd0b3 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n43e50602fe104a5ca3e782f13b44bcd0b1 ;
+    rr:predicateObjectMap _:N3b272440b6584011ac2dfaa75d373642 ;
+    rr:subjectMap _:n43e50602fe104a5ca3e782f13b44bcd0b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n43e50602fe104a5ca3e782f13b44bcd0b1 ;
+    rr:predicateObjectMap _:Na8030fc590c44b9d94768cd15fe49e8b ;
+    rr:subjectMap _:n43e50602fe104a5ca3e782f13b44bcd0b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n43e50602fe104a5ca3e782f13b44bcd0b1 ;
+    rr:predicateObjectMap _:N3b272440b6584011ac2dfaa75d373642 ;
+    rr:subjectMap _:n43e50602fe104a5ca3e782f13b44bcd0b3 .
+
+_:N71ec46c6060b4830892504aeacb69df6 rr:constant foaf:name .
+
+_:Nafb199fe764f44d2a87a3bba37fa9141 rr:constant ex:amount .
+
+_:n43e50602fe104a5ca3e782f13b44bcd0b5 rr:template "{fname} {lname}" ;
+    rr:termType rr:Literal .
+
+_:n43e50602fe104a5ca3e782f13b44bcd0b7 rml:reference "amount" .
+
+_:N3b272440b6584011ac2dfaa75d373642 rr:objectMap _:n43e50602fe104a5ca3e782f13b44bcd0b7 ;
+    rr:predicateMap _:Nafb199fe764f44d2a87a3bba37fa9141 .
+
+_:Na8030fc590c44b9d94768cd15fe49e8b rr:objectMap _:n43e50602fe104a5ca3e782f13b44bcd0b5 ;
+    rr:predicateMap _:N71ec46c6060b4830892504aeacb69df6 .
+
+_:n43e50602fe104a5ca3e782f13b44bcd0b2 rr:template "{fname}_{lname}_{amount}" ;
+    rr:termType rr:BlankNode .
+
+_:n43e50602fe104a5ca3e782f13b44bcd0b3 rr:template "{amount}_{fname}_{lname}" ;
+    rr:termType rr:BlankNode .
+
+_:n43e50602fe104a5ca3e782f13b44bcd0b1 rml:iterator "$.persons[*]" ;
+    rml:referenceFormulation ql:JSONPath ;
+    rml:source "persons.json" .
+

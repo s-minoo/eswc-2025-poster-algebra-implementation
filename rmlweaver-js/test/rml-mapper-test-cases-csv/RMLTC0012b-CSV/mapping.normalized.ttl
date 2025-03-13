@@ -1,0 +1,42 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n45b91e38046544df92bd9eb6b5b0e9a3b1 ;
+    rr:subjectMap _:n45b91e38046544df92bd9eb6b5b0e9a3b2 .
+
+<http://example.com/base/TriplesMap2> a rr:TriplesMap ;
+    rml:logicalSource _:n45b91e38046544df92bd9eb6b5b0e9a3b5 ;
+    rr:subjectMap _:n45b91e38046544df92bd9eb6b5b0e9a3b6 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n45b91e38046544df92bd9eb6b5b0e9a3b5 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "city" ] ;
+            rr:predicateMap [ rr:constant ex:city ] ] ;
+    rr:subjectMap _:n45b91e38046544df92bd9eb6b5b0e9a3b6 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n45b91e38046544df92bd9eb6b5b0e9a3b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:template "{fname} {lname}" ;
+                    rr:termType rr:Literal ] ;
+            rr:predicateMap [ rr:constant foaf:name ] ] ;
+    rr:subjectMap _:n45b91e38046544df92bd9eb6b5b0e9a3b2 .
+
+_:n45b91e38046544df92bd9eb6b5b0e9a3b1 rml:referenceFormulation ql:CSV ;
+    rml:source "persons.csv" .
+
+_:n45b91e38046544df92bd9eb6b5b0e9a3b2 rr:template "{fname}{lname}" ;
+    rr:termType rr:BlankNode .
+
+_:n45b91e38046544df92bd9eb6b5b0e9a3b5 rml:referenceFormulation ql:CSV ;
+    rml:source "lives.csv" .
+
+_:n45b91e38046544df92bd9eb6b5b0e9a3b6 rr:template "{fname}{lname}" ;
+    rr:termType rr:BlankNode .
+

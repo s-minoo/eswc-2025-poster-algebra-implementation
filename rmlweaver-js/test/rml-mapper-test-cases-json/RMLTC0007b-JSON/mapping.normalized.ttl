@@ -1,0 +1,34 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n86180f2185514f328741450117627bffb1 ;
+    rr:subjectMap _:n86180f2185514f328741450117627bffb2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n86180f2185514f328741450117627bffb1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:constant foaf:Person ] ;
+            rr:predicateMap [ rr:constant rdf:type ] ] ;
+    rr:subjectMap _:n86180f2185514f328741450117627bffb2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n86180f2185514f328741450117627bffb1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "FirstName" ] ;
+            rr:predicateMap [ rr:constant foaf:name ] ] ;
+    rr:subjectMap _:n86180f2185514f328741450117627bffb2 .
+
+_:N7b2553b994e64ef58735656257dbbc5e rr:constant ex:PersonGraph .
+
+_:n86180f2185514f328741450117627bffb1 rml:iterator "$.students[*]" ;
+    rml:referenceFormulation ql:JSONPath ;
+    rml:source "student.json" .
+
+_:n86180f2185514f328741450117627bffb2 rr:graphMap _:N7b2553b994e64ef58735656257dbbc5e ;
+    rr:template "http://example.com/Student/{ID}/{FirstName}" .
+

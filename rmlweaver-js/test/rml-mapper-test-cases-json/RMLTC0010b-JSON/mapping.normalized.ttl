@@ -1,0 +1,24 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n543b076f2f4f4b62aaee632c03feea88b1 ;
+    rr:subjectMap _:n543b076f2f4f4b62aaee632c03feea88b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n543b076f2f4f4b62aaee632c03feea88b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Name" ] ;
+            rr:predicateMap [ rr:constant ex:name ] ] ;
+    rr:subjectMap _:n543b076f2f4f4b62aaee632c03feea88b2 .
+
+_:n543b076f2f4f4b62aaee632c03feea88b1 rml:iterator "$.countries[*]" ;
+    rml:referenceFormulation ql:JSONPath ;
+    rml:source "country_info.json" .
+
+_:n543b076f2f4f4b62aaee632c03feea88b2 rr:template "http://example.com/{Country Code}/{Name}" .
+

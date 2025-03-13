@@ -1,0 +1,23 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n5b9458fe37734cc7a7ae4a220da17301b1 ;
+    rr:subjectMap _:n5b9458fe37734cc7a7ae4a220da17301b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n5b9458fe37734cc7a7ae4a220da17301b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Name" ] ;
+            rr:predicateMap [ rr:constant ex:name ] ] ;
+    rr:subjectMap _:n5b9458fe37734cc7a7ae4a220da17301b2 .
+
+_:n5b9458fe37734cc7a7ae4a220da17301b1 rml:referenceFormulation ql:CSV ;
+    rml:source "country_info.csv" .
+
+_:n5b9458fe37734cc7a7ae4a220da17301b2 rr:template "http://example.com/{Country Code}/{Name}" .
+

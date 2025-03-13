@@ -1,0 +1,64 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix activity: <http://example.com/activity/> .
+@prefix ex: <http://example.com/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n408ea64ba3244b22af84695111126263b4 ;
+    rr:subjectMap _:n408ea64ba3244b22af84695111126263b5 .
+
+<http://example.com/base/TriplesMap2> a rr:TriplesMap ;
+    rml:logicalSource _:n408ea64ba3244b22af84695111126263b1 ;
+    rr:subjectMap _:n408ea64ba3244b22af84695111126263b2 .
+
+<http://example.com/base/RefObjectMap1> a rr:RefObjectMap ;
+    rr:template "http://example.com/{Sport}" ;
+    rr:termType rr:IRI .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n408ea64ba3244b22af84695111126263b4 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Name" ] ;
+            rr:predicateMap [ rr:constant foaf:name ] ] ;
+    rr:subjectMap _:n408ea64ba3244b22af84695111126263b5 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n408ea64ba3244b22af84695111126263b4 ;
+    rr:predicateObjectMap [ rr:objectMap <http://example.com/base/RefObjectMap1> ;
+            rr:predicateMap [ rr:constant ex:Sport ] ] ;
+    rr:subjectMap _:n408ea64ba3244b22af84695111126263b5 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n408ea64ba3244b22af84695111126263b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:constant activity:Sport ] ;
+            rr:predicateMap [ rr:constant rdf:type ] ] ;
+    rr:subjectMap _:n408ea64ba3244b22af84695111126263b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n408ea64ba3244b22af84695111126263b4 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "ID" ] ;
+            rr:predicateMap [ rr:constant ex:id ] ] ;
+    rr:subjectMap _:n408ea64ba3244b22af84695111126263b5 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n408ea64ba3244b22af84695111126263b4 ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:constant foaf:Person ] ;
+            rr:predicateMap [ rr:constant rdf:type ] ] ;
+    rr:subjectMap _:n408ea64ba3244b22af84695111126263b5 .
+
+_:n408ea64ba3244b22af84695111126263b1 rml:iterator "$.students[*]" ;
+    rml:referenceFormulation ql:JSONPath ;
+    rml:source "student.json" .
+
+_:n408ea64ba3244b22af84695111126263b2 rr:template "http://example.com/{Sport}" .
+
+_:n408ea64ba3244b22af84695111126263b4 rml:iterator "$.students[*]" ;
+    rml:referenceFormulation ql:JSONPath ;
+    rml:source "student.json" .
+
+_:n408ea64ba3244b22af84695111126263b5 rr:template "http://example.com/Student/{ID}/{Name}" .
+

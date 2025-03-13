@@ -1,0 +1,32 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:nd75ac27240964164896a5d5fe8cb6695b1 ;
+    rr:subjectMap _:nd75ac27240964164896a5d5fe8cb6695b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nd75ac27240964164896a5d5fe8cb6695b1 ;
+    rr:predicateObjectMap [ rr:objectMap _:nd75ac27240964164896a5d5fe8cb6695b4 ;
+            rr:predicateMap [ rr:constant foaf:name ] ] ;
+    rr:subjectMap _:nd75ac27240964164896a5d5fe8cb6695b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nd75ac27240964164896a5d5fe8cb6695b1 ;
+    rr:predicateObjectMap [ rr:objectMap _:nd75ac27240964164896a5d5fe8cb6695b4 ;
+            rr:predicateMap [ rr:constant ex:name ] ] ;
+    rr:subjectMap _:nd75ac27240964164896a5d5fe8cb6695b2 .
+
+_:nd75ac27240964164896a5d5fe8cb6695b4 rml:reference "Name" .
+
+_:nd75ac27240964164896a5d5fe8cb6695b1 rml:referenceFormulation ql:CSV ;
+    rml:source "student.csv" .
+
+_:nd75ac27240964164896a5d5fe8cb6695b2 rr:template "http://example.com/Student/{ID}/{Name}" .
+

@@ -1,0 +1,55 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n0ea5222ce1db41b7ad446282747ec968b1 ;
+    rr:subjectMap _:n0ea5222ce1db41b7ad446282747ec968b2 .
+
+<http://example.com/base/TriplesMap2> a rr:TriplesMap ;
+    rml:logicalSource _:n0ea5222ce1db41b7ad446282747ec968b5 ;
+    rr:subjectMap _:n0ea5222ce1db41b7ad446282747ec968b6 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n0ea5222ce1db41b7ad446282747ec968b5 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Sport" ] ;
+            rr:predicateMap [ rr:constant foaf:name ] ] ;
+    rr:subjectMap _:n0ea5222ce1db41b7ad446282747ec968b6 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n0ea5222ce1db41b7ad446282747ec968b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Student" ] ;
+            rr:predicateMap [ rr:constant foaf:name ] ] ;
+    rr:subjectMap _:n0ea5222ce1db41b7ad446282747ec968b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n0ea5222ce1db41b7ad446282747ec968b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:constant ex:Student ;
+                    rr:termType rr:IRI ] ;
+            rr:predicateMap [ rr:constant rdf:type ;
+                    rr:termType rr:IRI ] ] ;
+    rr:subjectMap _:n0ea5222ce1db41b7ad446282747ec968b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n0ea5222ce1db41b7ad446282747ec968b5 ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:constant ex:Sport ;
+                    rr:termType rr:IRI ] ;
+            rr:predicateMap [ rr:constant rdf:type ;
+                    rr:termType rr:IRI ] ] ;
+    rr:subjectMap _:n0ea5222ce1db41b7ad446282747ec968b6 .
+
+_:n0ea5222ce1db41b7ad446282747ec968b1 rml:referenceFormulation ql:CSV ;
+    rml:source "student_sport.csv" .
+
+_:n0ea5222ce1db41b7ad446282747ec968b2 rr:template "http://example.com/{Student}" .
+
+_:n0ea5222ce1db41b7ad446282747ec968b5 rml:referenceFormulation ql:CSV ;
+    rml:source "student_sport.csv" .
+
+_:n0ea5222ce1db41b7ad446282747ec968b6 rr:template "http://example.com/{Sport}" .
+

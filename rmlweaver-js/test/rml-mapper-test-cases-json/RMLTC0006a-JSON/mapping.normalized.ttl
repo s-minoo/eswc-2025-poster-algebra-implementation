@@ -1,0 +1,27 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n81a7ae4cf2c94e0ab0dcf29a322f9879b1 ;
+    rr:subjectMap _:n81a7ae4cf2c94e0ab0dcf29a322f9879b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n81a7ae4cf2c94e0ab0dcf29a322f9879b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:constant "Bad Student" ] ;
+            rr:predicateMap [ rr:constant ex:description ] ] ;
+    rr:subjectMap _:n81a7ae4cf2c94e0ab0dcf29a322f9879b2 .
+
+_:n81a7ae4cf2c94e0ab0dcf29a322f9879b3 rr:constant <http://example.com/graph/student> .
+
+_:n81a7ae4cf2c94e0ab0dcf29a322f9879b1 rml:iterator "$.students[*]" ;
+    rml:referenceFormulation ql:JSONPath ;
+    rml:source "student.json" .
+
+_:n81a7ae4cf2c94e0ab0dcf29a322f9879b2 rr:constant ex:BadStudent ;
+    rr:graphMap _:n81a7ae4cf2c94e0ab0dcf29a322f9879b3 .
+

@@ -1,0 +1,114 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b1 ;
+    rr:subjectMap _:nfffbcfc020b04463a22692e97d03ca15b2 .
+
+<http://example.com/base/TriplesMap2> a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b8 ;
+    rr:subjectMap _:nfffbcfc020b04463a22692e97d03ca15b9 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b1 ;
+    rr:subjectMap [ rr:template "http://example.com/resource/student_{ID}" ] .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b1 ;
+    rr:predicateObjectMap _:Ncb1e7e6cde984216b1454a667e7e50dc ;
+    rr:subjectMap [ rr:graphMap _:Na735940cce5d4ea182d842e8b3712b6a ;
+            rr:template "http://example.com/resource/student_{ID}" ] .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:constant <http://example.com/ontology/Student> ;
+                    rr:termType rr:IRI ] ;
+            rr:predicateMap [ rr:constant rdf:type ;
+                    rr:termType rr:IRI ] ] ;
+    rr:subjectMap _:nfffbcfc020b04463a22692e97d03ca15b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b1 ;
+    rr:subjectMap [ rr:template "http://example.com/resource/student_{ID}" ] .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b1 ;
+    rr:subjectMap _:nfffbcfc020b04463a22692e97d03ca15b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b8 ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:constant <http://example.com/ontology/Sport> ;
+                    rr:termType rr:IRI ] ;
+            rr:predicateMap [ rr:constant rdf:type ;
+                    rr:termType rr:IRI ] ] ;
+    rr:subjectMap _:nfffbcfc020b04463a22692e97d03ca15b9 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b1 ;
+    rr:predicateObjectMap _:Ncb1e7e6cde984216b1454a667e7e50dc ;
+    rr:subjectMap [ rr:graphMap [ rr:constant <http://example.com/graph/practise> ] ;
+            rr:template "http://example.com/resource/student_{ID}" ] .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b1 ;
+    rr:subjectMap _:nfffbcfc020b04463a22692e97d03ca15b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b1 ;
+    rr:predicateObjectMap _:N4f0519a1447041a98e0fdfc0b527c08b ;
+    rr:subjectMap [ rr:graphMap [ rr:constant <http://example.com/graph/students> ] ;
+            rr:template "http://example.com/resource/student_{ID}" ] .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b1 ;
+    rr:predicateObjectMap _:N4f0519a1447041a98e0fdfc0b527c08b ;
+    rr:subjectMap [ rr:graphMap _:Na735940cce5d4ea182d842e8b3712b6a ;
+            rr:template "http://example.com/resource/student_{ID}" ] .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nfffbcfc020b04463a22692e97d03ca15b8 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Name" ] ;
+            rr:predicateMap [ rr:constant rdfs:label ] ] ;
+    rr:subjectMap _:nfffbcfc020b04463a22692e97d03ca15b9 .
+
+_:N7add7dbdfcb045aa90a51727384ead72 rr:constant <http://example.com/graph/sports> .
+
+_:N87e6c3a8768b439bab0ec106c233b723 rr:constant foaf:name .
+
+_:Nd0bf0cb4deaf4ca79efdd2f777d1ce81 rr:constant <http://example.com/ontology/practises> .
+
+_:nfffbcfc020b04463a22692e97d03ca15b4 rml:reference "Name" .
+
+_:nfffbcfc020b04463a22692e97d03ca15b6 a rr:RefObjectMap ;
+    rr:joinCondition [ rr:child "Sport" ;
+            rr:parent "ID" ] ;
+    rr:parentTriplesMap <http://example.com/base/TriplesMap2> .
+
+_:N4f0519a1447041a98e0fdfc0b527c08b rr:objectMap _:nfffbcfc020b04463a22692e97d03ca15b4 ;
+    rr:predicateMap _:N87e6c3a8768b439bab0ec106c233b723 .
+
+_:Ncb1e7e6cde984216b1454a667e7e50dc rr:objectMap _:nfffbcfc020b04463a22692e97d03ca15b6 ;
+    rr:predicateMap _:Nd0bf0cb4deaf4ca79efdd2f777d1ce81 .
+
+_:Na735940cce5d4ea182d842e8b3712b6a rr:constant <http://example.com/graph/students> .
+
+_:nfffbcfc020b04463a22692e97d03ca15b8 rml:iterator "$.sports[*]" ;
+    rml:referenceFormulation ql:JSONPath ;
+    rml:source "sport.json" .
+
+_:nfffbcfc020b04463a22692e97d03ca15b9 rr:graphMap _:N7add7dbdfcb045aa90a51727384ead72 ;
+    rr:template "http://example.com/resource/sport_{ID}" .
+
+_:nfffbcfc020b04463a22692e97d03ca15b2 rr:graphMap _:Na735940cce5d4ea182d842e8b3712b6a ;
+    rr:template "http://example.com/resource/student_{ID}" .
+
+_:nfffbcfc020b04463a22692e97d03ca15b1 rml:iterator "$.students[*]" ;
+    rml:referenceFormulation ql:JSONPath ;
+    rml:source "student.json" .
+

@@ -1,0 +1,58 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n5195b29af19b4a95ad3e28b6ac1ca81eb1 ;
+    rr:subjectMap _:n5195b29af19b4a95ad3e28b6ac1ca81eb2,
+        _:n5195b29af19b4a95ad3e28b6ac1ca81eb3 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n5195b29af19b4a95ad3e28b6ac1ca81eb1 ;
+    rr:predicateObjectMap _:N69c1f87e02764cd8be43e1b8a7adb3b4 ;
+    rr:subjectMap _:n5195b29af19b4a95ad3e28b6ac1ca81eb3 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n5195b29af19b4a95ad3e28b6ac1ca81eb1 ;
+    rr:predicateObjectMap _:N2c450eb9e13a431abd2295f360d08d36 ;
+    rr:subjectMap _:n5195b29af19b4a95ad3e28b6ac1ca81eb3 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n5195b29af19b4a95ad3e28b6ac1ca81eb1 ;
+    rr:predicateObjectMap _:N2c450eb9e13a431abd2295f360d08d36 ;
+    rr:subjectMap _:n5195b29af19b4a95ad3e28b6ac1ca81eb2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n5195b29af19b4a95ad3e28b6ac1ca81eb1 ;
+    rr:predicateObjectMap _:N69c1f87e02764cd8be43e1b8a7adb3b4 ;
+    rr:subjectMap _:n5195b29af19b4a95ad3e28b6ac1ca81eb2 .
+
+_:N00af844477364643adf22c86dd2e4c46 rr:constant ex:amount .
+
+_:Ndb0fcaddcfd54d7e98acfefb9090ec6c rr:constant foaf:name .
+
+_:n5195b29af19b4a95ad3e28b6ac1ca81eb5 rr:template "{fname} {lname}" ;
+    rr:termType rr:Literal .
+
+_:n5195b29af19b4a95ad3e28b6ac1ca81eb7 rml:reference "amount" .
+
+_:N2c450eb9e13a431abd2295f360d08d36 rr:objectMap _:n5195b29af19b4a95ad3e28b6ac1ca81eb5 ;
+    rr:predicateMap _:Ndb0fcaddcfd54d7e98acfefb9090ec6c .
+
+_:N69c1f87e02764cd8be43e1b8a7adb3b4 rr:objectMap _:n5195b29af19b4a95ad3e28b6ac1ca81eb7 ;
+    rr:predicateMap _:N00af844477364643adf22c86dd2e4c46 .
+
+_:n5195b29af19b4a95ad3e28b6ac1ca81eb2 rr:template "{fname}_{lname}_{amount}" ;
+    rr:termType rr:BlankNode .
+
+_:n5195b29af19b4a95ad3e28b6ac1ca81eb3 rr:template "{amount}_{fname}_{lname}" ;
+    rr:termType rr:BlankNode .
+
+_:n5195b29af19b4a95ad3e28b6ac1ca81eb1 rml:referenceFormulation ql:CSV ;
+    rml:source "persons.csv" .
+

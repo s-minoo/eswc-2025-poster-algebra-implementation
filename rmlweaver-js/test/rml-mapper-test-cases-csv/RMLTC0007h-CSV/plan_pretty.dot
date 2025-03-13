@@ -1,0 +1,15 @@
+digraph {
+    0 [ label = "id:Source_0 \lSource Operator\ltype: File \lreference iterator: Iterator {\l    reference: None,\l    reference_formulation: CSVRows,\l    fields: [\l        Field {\l            alias: \"04fdfb64-b64c-4a08-b3cd-5a54993e8930\",\l            reference: \"ID\",\l            reference_formulation: CSVRows,\l            inner_fields: [],\l        },\l        Field {\l            alias: \"9613bdea-cf8e-41ec-ac8b-d35cad1d2019\",\l            reference: \"FirstName\",\l            reference_formulation: CSVRows,\l            inner_fields: [],\l        },\l        Field {\l            alias: \"591daaf4-3299-4d29-b308-bbd38b0ceac3\",\l            reference: \"Name\",\l            reference_formulation: CSVRows,\l            inner_fields: [],\l        },\l    ],\l    alias: None,\l} \lconfig: {\l  \"path\": \"student.csv\"\l}\l             " ]
+    1 [ label = "id:Subject_Extend__1 \lExtension Operator\lExtended pairs: \l subject_attr -> Iri { base_iri: Some(\"http://example.com/base/\"), inner_function: Concatenate { left_value: Concatenate { left_value: Concatenate { left_value: Concatenate { left_value: Nop, separator: \"\", right_value: TypedConstant { value: \"http://example.com/Student/\", term_type: Literal } }, separator: \"\", right_value: Reference { value: \"04fdfb64-b64c-4a08-b3cd-5a54993e8930\" } }, separator: \"\", right_value: TypedConstant { value: \"/\", term_type: Literal } }, separator: \"\", right_value: Reference { value: \"9613bdea-cf8e-41ec-ac8b-d35cad1d2019\" } } }" ]
+    2 [ label = "id:Predicate_Extend__2 \lExtension Operator\lExtended pairs: \l predicate_attr -> TypedConstant { value: \"http://xmlns.com/foaf/0.1/name\", term_type: IRI }" ]
+    3 [ label = "id:Object_Extend__3 \lExtension Operator\lExtended pairs: \l object_attr -> Literal { inner_function: Reference { value: \"591daaf4-3299-4d29-b308-bbd38b0ceac3\" }, dtype_function: None, langtype_function: None }" ]
+    4 [ label = "id:Graph_Extend__4 \lExtension Operator\lExtended pairs: \l graph_attr -> Literal { inner_function: Reference { value: \"591daaf4-3299-4d29-b308-bbd38b0ceac3\" }, dtype_function: None, langtype_function: None }" ]
+    5 [ label = "id:Serialize_5 \lSerializer Operator\lFormat type: NQuads\lTemplate: ?subject_attr ?predicate_attr ?object_attr ?graph_attr ." ]
+    6 [ label = "id:Sink_6 \lTarget Operator\ltype: StdOut \ldata format: NQuads \lconfig: {}\l             " ]
+    0 -> 1 [ label = "Fragment:default" ]
+    1 -> 2 [ label = "Fragment:default" ]
+    2 -> 3 [ label = "Fragment:default" ]
+    3 -> 4 [ label = "Fragment:default" ]
+    4 -> 5 [ label = "Fragment:default" ]
+    5 -> 6 [ label = "Fragment:default" ]
+}

@@ -1,0 +1,24 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:nba05752e9b574120b8516a2f3874e63cb1 ;
+    rr:subjectMap <http://example.com/base/#NameSubjectMap> .
+
+<http://example.com/base/#NameSubjectMap> rr:template "http://example.com/{Name}" .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nba05752e9b574120b8516a2f3874e63cb1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Name" ] ;
+            rr:predicateMap [ rr:constant foaf:name ] ] ;
+    rr:subjectMap <http://example.com/base/#NameSubjectMap> .
+
+_:nba05752e9b574120b8516a2f3874e63cb1 rml:iterator "$.students[*]" ;
+    rml:referenceFormulation ql:JSONPath ;
+    rml:source "student.json" .
+

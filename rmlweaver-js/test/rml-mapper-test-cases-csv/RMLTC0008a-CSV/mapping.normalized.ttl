@@ -1,0 +1,45 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n68889e035aeb4a8d9e315a0a546f478eb1 ;
+    rr:subjectMap _:n68889e035aeb4a8d9e315a0a546f478eb2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n68889e035aeb4a8d9e315a0a546f478eb1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Sport" ] ;
+            rr:predicateMap [ rr:constant ex:Sport ] ] ;
+    rr:subjectMap _:n68889e035aeb4a8d9e315a0a546f478eb2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n68889e035aeb4a8d9e315a0a546f478eb1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:constant foaf:Person ] ;
+            rr:predicateMap [ rr:constant rdf:type ] ] ;
+    rr:subjectMap _:n68889e035aeb4a8d9e315a0a546f478eb2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n68889e035aeb4a8d9e315a0a546f478eb1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "ID" ] ;
+            rr:predicateMap [ rr:constant ex:id ] ] ;
+    rr:subjectMap _:n68889e035aeb4a8d9e315a0a546f478eb2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n68889e035aeb4a8d9e315a0a546f478eb1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Name" ] ;
+            rr:predicateMap [ rr:constant foaf:name ] ] ;
+    rr:subjectMap _:n68889e035aeb4a8d9e315a0a546f478eb2 .
+
+_:n68889e035aeb4a8d9e315a0a546f478eb3 rr:template "http://example.com/graph/Student/{ID}/{Name}" .
+
+_:n68889e035aeb4a8d9e315a0a546f478eb1 rml:referenceFormulation ql:CSV ;
+    rml:source "student.csv" .
+
+_:n68889e035aeb4a8d9e315a0a546f478eb2 rr:graphMap _:n68889e035aeb4a8d9e315a0a546f478eb3 ;
+    rr:template "http://example.com/Student/{ID}/{Name}" .
+

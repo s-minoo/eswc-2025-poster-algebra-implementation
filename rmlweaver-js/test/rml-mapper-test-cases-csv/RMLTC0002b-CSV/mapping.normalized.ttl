@@ -1,0 +1,24 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n26abe1bc76764191b3adee9e4a2ad291b1 ;
+    rr:subjectMap _:n26abe1bc76764191b3adee9e4a2ad291b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n26abe1bc76764191b3adee9e4a2ad291b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Name" ] ;
+            rr:predicateMap [ rr:constant foaf:name ] ] ;
+    rr:subjectMap _:n26abe1bc76764191b3adee9e4a2ad291b2 .
+
+_:n26abe1bc76764191b3adee9e4a2ad291b1 rml:referenceFormulation ql:CSV ;
+    rml:source "student.csv" .
+
+_:n26abe1bc76764191b3adee9e4a2ad291b2 rr:template "students{ID}" ;
+    rr:termType rr:BlankNode .
+

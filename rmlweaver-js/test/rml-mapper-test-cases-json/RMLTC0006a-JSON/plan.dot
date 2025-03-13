@@ -1,0 +1,15 @@
+digraph {
+    0 [ label = "{\"id\":\"Source_0\",\"operator\":{\"config\":{\"path\":\"student.json\",\"root_iterator\":{\"alias\":null,\"fields\":[],\"reference\":\"$.students[*]\",\"reference_formulation\":\"JSONPath\"},\"source_type\":\"File\"},\"type\":\"SourceOp\"}}" ]
+    1 [ label = "{\"id\":\"Subject_Extend__1\",\"operator\":{\"config\":{\"subject_attr\":{\"term_type\":\"IRI\",\"type\":\"TypedConstant\",\"value\":\"http://example.com/BadStudent\"}},\"type\":\"ExtendOp\"}}" ]
+    2 [ label = "{\"id\":\"Predicate_Extend__2\",\"operator\":{\"config\":{\"predicate_attr\":{\"term_type\":\"IRI\",\"type\":\"TypedConstant\",\"value\":\"http://example.com/description\"}},\"type\":\"ExtendOp\"}}" ]
+    3 [ label = "{\"id\":\"Object_Extend__3\",\"operator\":{\"config\":{\"object_attr\":{\"term_type\":\"Literal\",\"type\":\"TypedConstant\",\"value\":\"Bad Student\"}},\"type\":\"ExtendOp\"}}" ]
+    4 [ label = "{\"id\":\"Graph_Extend__4\",\"operator\":{\"config\":{\"graph_attr\":{\"term_type\":\"IRI\",\"type\":\"TypedConstant\",\"value\":\"http://example.com/graph/student\"}},\"type\":\"ExtendOp\"}}" ]
+    5 [ label = "{\"id\":\"Serialize_5\",\"operator\":{\"config\":{\"format\":\"NQuads\",\"template\":\"?subject_attr ?predicate_attr ?object_attr ?graph_attr .\"},\"type\":\"SerializerOp\"}}" ]
+    6 [ label = "{\"id\":\"Sink_6\",\"operator\":{\"config\":{\"data_format\":\"NQuads\",\"target_type\":\"StdOut\"},\"type\":\"TargetOp\"}}" ]
+    0 -> 1 [ label = "{\"fragment\": default}" ]
+    1 -> 2 [ label = "{\"fragment\": default}" ]
+    2 -> 3 [ label = "{\"fragment\": default}" ]
+    3 -> 4 [ label = "{\"fragment\": default}" ]
+    4 -> 5 [ label = "{\"fragment\": default}" ]
+    5 -> 6 [ label = "{\"fragment\": default}" ]
+}

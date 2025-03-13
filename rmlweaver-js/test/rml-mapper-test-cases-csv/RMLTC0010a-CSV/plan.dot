@@ -1,0 +1,15 @@
+digraph {
+    0 [ label = "{\"id\":\"Source_0\",\"operator\":{\"config\":{\"path\":\"country_info.csv\",\"root_iterator\":{\"alias\":null,\"fields\":[{\"alias\":\"f0fcce48-f38b-4373-9256-885494850238\",\"inner_fields\":[],\"reference\":\"Name\",\"reference_formulation\":\"CSVRows\"},{\"alias\":\"2bb6a9b7-b445-41e4-8c06-9928ac1b3c1b\",\"inner_fields\":[],\"reference\":\"Country Code\",\"reference_formulation\":\"CSVRows\"}],\"reference\":null,\"reference_formulation\":\"CSVRows\"},\"source_type\":\"File\"},\"type\":\"SourceOp\"}}" ]
+    1 [ label = "{\"id\":\"Subject_Extend__1\",\"operator\":{\"config\":{\"subject_attr\":{\"base_iri\":\"http://example.com/base/\",\"inner_function\":{\"left_value\":{\"left_value\":{\"type\":\"Nop\"},\"right_value\":{\"term_type\":\"Literal\",\"type\":\"TypedConstant\",\"value\":\"http://example.com/\"},\"separator\":\"\",\"type\":\"Concatenate\"},\"right_value\":{\"type\":\"Reference\",\"value\":\"2bb6a9b7-b445-41e4-8c06-9928ac1b3c1b\"},\"separator\":\"\",\"type\":\"Concatenate\"},\"type\":\"Iri\"}},\"type\":\"ExtendOp\"}}" ]
+    2 [ label = "{\"id\":\"Predicate_Extend__2\",\"operator\":{\"config\":{\"predicate_attr\":{\"term_type\":\"IRI\",\"type\":\"TypedConstant\",\"value\":\"http://example.com/name\"}},\"type\":\"ExtendOp\"}}" ]
+    3 [ label = "{\"id\":\"Object_Extend__3\",\"operator\":{\"config\":{\"object_attr\":{\"dtype_function\":null,\"inner_function\":{\"type\":\"Reference\",\"value\":\"f0fcce48-f38b-4373-9256-885494850238\"},\"langtype_function\":null,\"type\":\"Literal\"}},\"type\":\"ExtendOp\"}}" ]
+    4 [ label = "{\"id\":\"Graph_Extend__4\",\"operator\":{\"config\":{\"graph_attr\":{\"term_type\":\"IRI\",\"type\":\"TypedConstant\",\"value\":\"http://www.w3.org/ns/r2rml#DefaultGraph\"}},\"type\":\"ExtendOp\"}}" ]
+    5 [ label = "{\"id\":\"Serialize_5\",\"operator\":{\"config\":{\"format\":\"NQuads\",\"template\":\"?subject_attr ?predicate_attr ?object_attr ?graph_attr .\"},\"type\":\"SerializerOp\"}}" ]
+    6 [ label = "{\"id\":\"Sink_6\",\"operator\":{\"config\":{\"data_format\":\"NQuads\",\"target_type\":\"StdOut\"},\"type\":\"TargetOp\"}}" ]
+    0 -> 1 [ label = "{\"fragment\": default}" ]
+    1 -> 2 [ label = "{\"fragment\": default}" ]
+    2 -> 3 [ label = "{\"fragment\": default}" ]
+    3 -> 4 [ label = "{\"fragment\": default}" ]
+    4 -> 5 [ label = "{\"fragment\": default}" ]
+    5 -> 6 [ label = "{\"fragment\": default}" ]
+}

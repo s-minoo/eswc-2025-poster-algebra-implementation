@@ -1,0 +1,15 @@
+digraph {
+    0 [ label = "id:Source_0 \lSource Operator\ltype: File \lreference iterator: Iterator {\l    reference: None,\l    reference_formulation: CSVRows,\l    fields: [],\l    alias: None,\l} \lconfig: {\l  \"path\": \"student.csv\"\l}\l             " ]
+    1 [ label = "id:Subject_Extend__1 \lExtension Operator\lExtended pairs: \l subject_attr -> TypedConstant { value: \"http://example.com/BadStudent\", term_type: IRI }" ]
+    2 [ label = "id:Predicate_Extend__2 \lExtension Operator\lExtended pairs: \l predicate_attr -> TypedConstant { value: \"http://example.com/description\", term_type: IRI }" ]
+    3 [ label = "id:Object_Extend__3 \lExtension Operator\lExtended pairs: \l object_attr -> TypedConstant { value: \"Bad Student\", term_type: Literal }" ]
+    4 [ label = "id:Graph_Extend__4 \lExtension Operator\lExtended pairs: \l graph_attr -> TypedConstant { value: \"http://example.com/graph/student\", term_type: IRI }" ]
+    5 [ label = "id:Serialize_5 \lSerializer Operator\lFormat type: NQuads\lTemplate: ?subject_attr ?predicate_attr ?object_attr ?graph_attr ." ]
+    6 [ label = "id:Sink_6 \lTarget Operator\ltype: StdOut \ldata format: NQuads \lconfig: {}\l             " ]
+    0 -> 1 [ label = "Fragment:default" ]
+    1 -> 2 [ label = "Fragment:default" ]
+    2 -> 3 [ label = "Fragment:default" ]
+    3 -> 4 [ label = "Fragment:default" ]
+    4 -> 5 [ label = "Fragment:default" ]
+    5 -> 6 [ label = "Fragment:default" ]
+}

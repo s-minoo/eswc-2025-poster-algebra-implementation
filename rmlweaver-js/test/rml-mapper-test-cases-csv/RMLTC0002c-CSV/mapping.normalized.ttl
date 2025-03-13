@@ -1,0 +1,23 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:nc2161a78824d408db16950ea9bde7005b1 ;
+    rr:subjectMap _:nc2161a78824d408db16950ea9bde7005b2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:nc2161a78824d408db16950ea9bde7005b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "IDs" ] ;
+            rr:predicateMap [ rr:constant ex:id ] ] ;
+    rr:subjectMap _:nc2161a78824d408db16950ea9bde7005b2 .
+
+_:nc2161a78824d408db16950ea9bde7005b1 rml:referenceFormulation ql:CSV ;
+    rml:source "student.csv" .
+
+_:nc2161a78824d408db16950ea9bde7005b2 rr:template "http://example.com/{ID}/{Name}" .
+

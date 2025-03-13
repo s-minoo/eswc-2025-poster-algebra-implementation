@@ -1,0 +1,32 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex: <http://example.com/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n18dab5182282466d9a8c1cf03977c18bb1 ;
+    rr:subjectMap _:n18dab5182282466d9a8c1cf03977c18bb2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n18dab5182282466d9a8c1cf03977c18bb1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "amount" ] ;
+            rr:predicateMap [ rr:constant ex:owes ] ] ;
+    rr:subjectMap _:n18dab5182282466d9a8c1cf03977c18bb2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n18dab5182282466d9a8c1cf03977c18bb1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:constant foaf:Person ;
+                    rr:termType rr:IRI ] ;
+            rr:predicateMap [ rr:constant rdf:type ;
+                    rr:termType rr:IRI ] ] ;
+    rr:subjectMap _:n18dab5182282466d9a8c1cf03977c18bb2 .
+
+_:n18dab5182282466d9a8c1cf03977c18bb1 rml:referenceFormulation ql:CSV ;
+    rml:source "ious.csv" .
+
+_:n18dab5182282466d9a8c1cf03977c18bb2 rr:template "http://example.com/{fname};{lname}" .
+

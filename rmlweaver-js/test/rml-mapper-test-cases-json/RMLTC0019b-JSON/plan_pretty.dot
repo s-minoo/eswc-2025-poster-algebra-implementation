@@ -1,0 +1,15 @@
+digraph {
+    0 [ label = "id:Source_0 \lSource Operator\ltype: File \lreference iterator: Iterator {\l    reference: Some(\l        \"$.persons[*]\",\l    ),\l    reference_formulation: JSONPath,\l    fields: [\l        Field {\l            alias: \"c3366b2b-7c88-4924-933c-088530d2c86e\",\l            reference: \"FirstName\",\l            reference_formulation: JSONPath,\l            inner_fields: [],\l        },\l    ],\l    alias: None,\l} \lconfig: {\l  \"path\": \"persons.json\"\l}\l             " ]
+    1 [ label = "id:Subject_Extend__1 \lExtension Operator\lExtended pairs: \l subject_attr -> Iri { base_iri: Some(\"http://example.com/base/\"), inner_function: Reference { value: \"c3366b2b-7c88-4924-933c-088530d2c86e\" } }" ]
+    2 [ label = "id:Predicate_Extend__2 \lExtension Operator\lExtended pairs: \l predicate_attr -> TypedConstant { value: \"http://xmlns.com/foaf/0.1/name\", term_type: IRI }" ]
+    3 [ label = "id:Object_Extend__3 \lExtension Operator\lExtended pairs: \l object_attr -> Literal { inner_function: Reference { value: \"c3366b2b-7c88-4924-933c-088530d2c86e\" }, dtype_function: None, langtype_function: None }" ]
+    4 [ label = "id:Graph_Extend__4 \lExtension Operator\lExtended pairs: \l graph_attr -> TypedConstant { value: \"http://www.w3.org/ns/r2rml#DefaultGraph\", term_type: IRI }" ]
+    5 [ label = "id:Serialize_5 \lSerializer Operator\lFormat type: NQuads\lTemplate: ?subject_attr ?predicate_attr ?object_attr ?graph_attr ." ]
+    6 [ label = "id:Sink_6 \lTarget Operator\ltype: StdOut \ldata format: NQuads \lconfig: {}\l             " ]
+    0 -> 1 [ label = "Fragment:default" ]
+    1 -> 2 [ label = "Fragment:default" ]
+    2 -> 3 [ label = "Fragment:default" ]
+    3 -> 4 [ label = "Fragment:default" ]
+    4 -> 5 [ label = "Fragment:default" ]
+    5 -> 6 [ label = "Fragment:default" ]
+}

@@ -1,0 +1,40 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n53fcb3e0db4640a3a20443fd9c48daa5b1 ;
+    rr:subjectMap _:n53fcb3e0db4640a3a20443fd9c48daa5b2 .
+
+<http://example.com/base/TriplesMap2> a rr:TriplesMap ;
+    rml:logicalSource _:n53fcb3e0db4640a3a20443fd9c48daa5b5 ;
+    rr:subjectMap _:n53fcb3e0db4640a3a20443fd9c48daa5b6 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n53fcb3e0db4640a3a20443fd9c48daa5b5 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Name" ;
+                    rr:language "es" ] ;
+            rr:predicateMap [ rr:constant rdfs:label ] ] ;
+    rr:subjectMap _:n53fcb3e0db4640a3a20443fd9c48daa5b6 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n53fcb3e0db4640a3a20443fd9c48daa5b1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Name" ;
+                    rr:language "en" ] ;
+            rr:predicateMap [ rr:constant rdfs:label ] ] ;
+    rr:subjectMap _:n53fcb3e0db4640a3a20443fd9c48daa5b2 .
+
+_:n53fcb3e0db4640a3a20443fd9c48daa5b1 rml:referenceFormulation ql:CSV ;
+    rml:source "country_en.csv" .
+
+_:n53fcb3e0db4640a3a20443fd9c48daa5b2 rr:template "http://example.com/{Code}" .
+
+_:n53fcb3e0db4640a3a20443fd9c48daa5b5 rml:referenceFormulation ql:CSV ;
+    rml:source "country_es.csv" .
+
+_:n53fcb3e0db4640a3a20443fd9c48daa5b6 rr:template "http://example.com/{Code}" .
+

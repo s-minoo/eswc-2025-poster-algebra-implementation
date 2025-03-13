@@ -1,0 +1,48 @@
+@base <http://example.com/base/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+<http://example.com/base/TriplesMap1> a rr:TriplesMap ;
+    rml:logicalSource _:n0a565986a5ca4e0cba974a327d4149fcb1 ;
+    rr:subjectMap _:n0a565986a5ca4e0cba974a327d4149fcb2 .
+
+<http://example.com/base/TriplesMap2> a rr:TriplesMap ;
+    rml:logicalSource _:n0a565986a5ca4e0cba974a327d4149fcb8 ;
+    rr:subjectMap _:n0a565986a5ca4e0cba974a327d4149fcb9 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n0a565986a5ca4e0cba974a327d4149fcb8 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Name" ] ;
+            rr:predicateMap [ rr:constant rdfs:label ] ] ;
+    rr:subjectMap _:n0a565986a5ca4e0cba974a327d4149fcb9 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n0a565986a5ca4e0cba974a327d4149fcb1 ;
+    rr:predicateObjectMap [ rr:objectMap [ a rr:RefObjectMap ;
+                    rr:joinCondition [ rr:child "Sport" ;
+                            rr:parent "ID" ] ;
+                    rr:parentTriplesMap <http://example.com/base/TriplesMap2> ] ;
+            rr:predicateMap [ rr:constant <http://example.com/ontology/practises> ] ] ;
+    rr:subjectMap _:n0a565986a5ca4e0cba974a327d4149fcb2 .
+
+[] a rr:TriplesMap ;
+    rml:logicalSource _:n0a565986a5ca4e0cba974a327d4149fcb1 ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Name" ] ;
+            rr:predicateMap [ rr:constant foaf:name ] ] ;
+    rr:subjectMap _:n0a565986a5ca4e0cba974a327d4149fcb2 .
+
+_:n0a565986a5ca4e0cba974a327d4149fcb8 rml:referenceFormulation ql:CSV ;
+    rml:source "sport.csv" .
+
+_:n0a565986a5ca4e0cba974a327d4149fcb9 rr:template "http://example.com/resource/sport_{ID}" .
+
+_:n0a565986a5ca4e0cba974a327d4149fcb1 rml:referenceFormulation ql:CSV ;
+    rml:source "student.csv" .
+
+_:n0a565986a5ca4e0cba974a327d4149fcb2 rr:template "http://example.com/resource/student_{ID}" .
+

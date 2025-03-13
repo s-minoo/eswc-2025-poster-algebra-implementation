@@ -1,0 +1,15 @@
+digraph {
+    0 [ label = "id:Source_0 \lSource Operator\ltype: File \lreference iterator: Iterator {\l    reference: None,\l    reference_formulation: CSVRows,\l    fields: [\l        Field {\l            alias: \"4d5cba38-1a93-47ca-b2e6-144436d86ca4\",\l            reference: \"Country Code\",\l            reference_formulation: CSVRows,\l            inner_fields: [],\l        },\l        Field {\l            alias: \"e08bcfbc-7987-46c7-a5b5-ce8d93428010\",\l            reference: \"Name\",\l            reference_formulation: CSVRows,\l            inner_fields: [],\l        },\l        Field {\l            alias: \"373b8fbe-ce9f-4c02-be61-b93f3ec30495\",\l            reference: \"ISO 3166\",\l            reference_formulation: CSVRows,\l            inner_fields: [],\l        },\l    ],\l    alias: None,\l} \lconfig: {\l  \"path\": \"country_info.csv\"\l}\l             " ]
+    1 [ label = "id:Subject_Extend__1 \lExtension Operator\lExtended pairs: \l subject_attr -> Iri { base_iri: Some(\"http://example.com/base/\"), inner_function: Concatenate { left_value: Concatenate { left_value: Concatenate { left_value: Concatenate { left_value: Nop, separator: \"\", right_value: TypedConstant { value: \"http://example.com/\", term_type: Literal } }, separator: \"\", right_value: Reference { value: \"4d5cba38-1a93-47ca-b2e6-144436d86ca4\" } }, separator: \"\", right_value: TypedConstant { value: \"/\", term_type: Literal } }, separator: \"\", right_value: Reference { value: \"e08bcfbc-7987-46c7-a5b5-ce8d93428010\" } } }" ]
+    2 [ label = "id:Predicate_Extend__2 \lExtension Operator\lExtended pairs: \l predicate_attr -> TypedConstant { value: \"http://example.com/code\", term_type: IRI }" ]
+    3 [ label = "id:Object_Extend__3 \lExtension Operator\lExtended pairs: \l object_attr -> Literal { inner_function: Concatenate { left_value: Concatenate { left_value: Concatenate { left_value: Nop, separator: \"\", right_value: TypedConstant { value: \"{{{ \", term_type: Literal } }, separator: \"\", right_value: Reference { value: \"373b8fbe-ce9f-4c02-be61-b93f3ec30495\" } }, separator: \"\", right_value: TypedConstant { value: \" }}}\", term_type: Literal } }, dtype_function: None, langtype_function: None }" ]
+    4 [ label = "id:Graph_Extend__4 \lExtension Operator\lExtended pairs: \l graph_attr -> TypedConstant { value: \"http://www.w3.org/ns/r2rml#DefaultGraph\", term_type: IRI }" ]
+    5 [ label = "id:Serialize_5 \lSerializer Operator\lFormat type: NQuads\lTemplate: ?subject_attr ?predicate_attr ?object_attr ?graph_attr ." ]
+    6 [ label = "id:Sink_6 \lTarget Operator\ltype: StdOut \ldata format: NQuads \lconfig: {}\l             " ]
+    0 -> 1 [ label = "Fragment:default" ]
+    1 -> 2 [ label = "Fragment:default" ]
+    2 -> 3 [ label = "Fragment:default" ]
+    3 -> 4 [ label = "Fragment:default" ]
+    4 -> 5 [ label = "Fragment:default" ]
+    5 -> 6 [ label = "Fragment:default" ]
+}
