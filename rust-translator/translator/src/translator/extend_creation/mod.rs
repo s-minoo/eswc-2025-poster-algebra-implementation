@@ -194,7 +194,6 @@ fn split_template(template_string: &str) -> Vec<String> {
     while let Some(c) = chars.next() {
         is_escape = c == '\\';
         if is_escape {
-            current_buf.push(c);
             if let Some(c) = chars.next() {
                 current_buf.push(c);
             }

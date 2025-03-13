@@ -9,6 +9,7 @@ import {
 } from '../types.js'
 import { forEach } from 'most'
 import {inspect} from 'util'; 
+import { isSharedArrayBuffer } from 'util/types';
 
 
 export class ExtendOp extends Operator {
@@ -28,8 +29,14 @@ export class ExtendOp extends Operator {
         switch (extend_func.type) {
             case 'Iri':
                 return (obj) => {
-                    innerFunction(obj)
-                    irify(extend_func, obj, key)
+                    if (extend_func.inner_function.type === "Concatenate"){
+                        innerFunction(obj, true)
+                    }else{
+                        innerFunction(obj)
+                    }
+
+                    let is_reference = extend_func.inner_function.type === "Reference"
+                    irify(extend_func, obj, key, is_reference)
                 }
 
             case 'Literal':
@@ -180,8 +187,8 @@ export class ExtendOp extends Operator {
                     key,
                     extend_func.right_value,
                 )
-                return (obj) => {
-                    left_function(obj)
+                return (obj, is_iri = false) => {
+                    left_function(obj, is_iri)
                     let left_value = obj[key]
                     if (left_value == null){
                         left_value = ""; 
@@ -189,7 +196,12 @@ export class ExtendOp extends Operator {
                     if (left_value.value != null){
                         left_value = left_value.value
                     }
-                    right_function(obj)
+                    //https://www.w3.org/TR/r2rml/#from-template
+                    if (extend_func.left_value.type === "Reference" && is_iri){
+                        left_value = encode(left_value) 
+                    }
+
+                    right_function(obj, is_iri)
                     let right_value = obj[key]
                     if (right_value == null){
                         right_value = ""; 
@@ -197,6 +209,10 @@ export class ExtendOp extends Operator {
                     if (right_value.value != null){
                         right_value = right_value.value
                     }
+                    if (extend_func.right_value.type === "Reference" && is_iri){
+                        right_value =  encode(right_value)
+                    }
+
 
                     if (extend_func.separator != null) {
                         obj[key] = left_value + extend_func.separator + right_value
@@ -228,8 +244,13 @@ export class ExtendOp extends Operator {
     }
 }
 
-function irify(extend_func, obj, key) {
+function irify(extend_func, obj, key, is_reference = false) {
     let iri_value = ''
+    if (is_reference && obj[key].indexOf(" ") >= 0 ){
+        obj[key] = undefined
+        return
+    }
+    
     if (extend_func.base_iri != null &&
         URL.canParse(obj[key], extend_func.base_iri) &&
         !URL.canParse(obj[key], undefined)) {
@@ -237,13 +258,23 @@ function irify(extend_func, obj, key) {
     } else {
         iri_value = obj[key]
     }
+
     if (iri_value.search(" ") >= 0) {
-        obj[key] = new Iri(encodeURI(iri_value)
+        obj[key] = new Iri(iri_value
                         .replace(',', '%2C')
                         .replace('(', '%28')
-                        .replace(')', '%29') // Encode URI, Maybe manually in the future to match RML mapper
-                        )
+                        .replace(')', '%29')
+        )
     } else {
         obj[key] = new Iri(iri_value)
     }
+    
+}
+
+
+function encode(value){
+    return encodeURIComponent(value)
+                        .replace(',', '%2C')
+                        .replace('(', '%28')
+                        .replace(')', '%29')
 }
