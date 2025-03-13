@@ -33,6 +33,10 @@ For running the normalizer script, here are the required modules:
 rdflib==6.1.1
 ```
 
+## Testing
+
+
+
 ## Running
 
 ### Step 1: Normalizing RML document
