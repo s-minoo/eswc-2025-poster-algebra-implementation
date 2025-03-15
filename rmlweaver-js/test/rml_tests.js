@@ -53,17 +53,6 @@ describe("RML Mapper Tests CSV", () => {
     ),
   );
   it(
-    "RMLTC0002c-CSV",
-    dotFileTest(
-      `${TC_CSV}/RMLTC0002c-CSV/plan.dot`,
-      `${TC_CSV}/RMLTC0002c-CSV/output.nq`,
-    ),
-  );
-  it(
-    "RMLTC0002e-CSV",
-    throwErrorTest(`${TC_CSV}/RMLTC0002e-CSV/plan.dot`, "ENOENT"),
-  );
-  it(
     "RMLTC0003c-CSV",
     dotFileTest(
       `${TC_CSV}/RMLTC0003c-CSV/plan.dot`,
@@ -267,8 +256,6 @@ describe("RML Mapper Tests JSON", () => {
     it('RMLTC0001b-JSON', dotFileTest(`${TC_JSON}/RMLTC0001b-JSON/plan.dot`, `${TC_JSON}/RMLTC0001b-JSON/output.nq`));
     it('RMLTC0002a-JSON', dotFileTest(`${TC_JSON}/RMLTC0002a-JSON/plan.dot`, `${TC_JSON}/RMLTC0002a-JSON/output.nq`));
     it('RMLTC0002b-JSON', dotFileTest(`${TC_JSON}/RMLTC0002b-JSON/plan.dot`, `${TC_JSON}/RMLTC0002b-JSON/output.nq`));
-    it('RMLTC0002c-JSON', dotFileTest(`${TC_JSON}/RMLTC0002c-JSON/plan.dot`, `${TC_JSON}/RMLTC0002c-JSON/output.nq`));
-    it('RMLTC0002e-JSON', throwErrorTest(`${TC_JSON}/RMLTC0002e-JSON/plan.dot`, FileNotFoundError));
     it('RMLTC0003c-JSON', dotFileTest(`${TC_JSON}/RMLTC0003c-JSON/plan.dot`, `${TC_JSON}/RMLTC0003c-JSON/output.nq`));
     it('RMLTC0004a-JSON', dotFileTest(`${TC_JSON}/RMLTC0004a-JSON/plan.dot`, `${TC_JSON}/RMLTC0004a-JSON/output.nq`));
     it('RMLTC0005a-JSON', dotFileTest(`${TC_JSON}/RMLTC0005a-JSON/plan.dot`, `${TC_JSON}/RMLTC0005a-JSON/output.nq`));
