@@ -7,7 +7,11 @@ RML document using algebraic expressions.
 
 1. RML normalization (normalizer.py)
 2. RML translation to algebraic expressions (rust-translator)
+   - Adapted the `vocab`, `operator`, and `plangenerator` modules from
+     [algemaploom-rs](https://github.com/RMLio/algemaploom-rs/)
 3. Algebraic expression evaluation engine (rmlweaver-js)
+   - Added new operators such as union and extend functions to the prototyping 
+   algebraic mapping engine [RMLWeaver-JS](https://github.com/RMLio/rmlweaver-js/)
 
 ## Prerequisites
 
@@ -39,12 +43,11 @@ The test cases reside inside the folder `rmlweaver-js/test` split into two
 folders according to the format of the input data, either CSV or JSON.
 The test cases are drawn from the website of [https://rml.io/test-cases/](https://rml.io/test-cases/)
 
-
-Test cases can be run as follows: 
+Test cases can be run as follows:
 
 1. Navigate to the folder `rmlweaver-js`
 
-2. Run `npm test`
+2. Run `npm install && npm test`
 
 ## Running
 
