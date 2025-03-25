@@ -14,15 +14,17 @@ engine based on formal algebra </p>
 The execution flow of this prototype implementation is shown in Figure 1
 according to the following steps: 
 
-1. Input **valid** arbitrary RML document is first normalized using the 
+1. An input **valid** arbitrary RML document is first normalized using the 
 python script [normalizer.py](./normalizer.py)
-2. Normalized RML RDF-graph is translated to algebraic expression (module: [rust-translator](./rust-translator/))
-   - Adapted the `vocab`, `operator`, and `plangenerator` modules from
-     [algemaploom-rs](https://github.com/RMLio/algemaploom-rs/)
-3. Generated algebraic expression is evaluated using the execution engine to map heterogeneous data to RDF graph
+2. The normalized RML RDF-graph, from step 1, is translated to algebraic expressions (module: [rust-translator](./rust-translator/))
+   - `vocab`, `operator`, and `plangenerator` modules from
+     [algemaploom-rs](https://github.com/RMLio/algemaploom-rs/) are adapted for
+     the translator implementation.
+3. The generated algebraic expression is evaluated, using the execution engine, to map heterogeneous data to RDF graph
    (module: [rmlweaver-js](./rmlweaver-js/))
-   - Added new operators such as union and new extend functions to the prototyping 
-   algebraic mapping engine [RMLWeaver-JS](https://github.com/RMLio/rmlweaver-js/)
+   - New operators such as union and new extend functions are implemented ontop 
+   of the prototyping algebraic mapping engine [RMLWeaver-JS](https://github.com/RMLio/rmlweaver-js/) to 
+   evaluate the algebraic expressions generated in step 2.
 
 The implementation is evaluated with the official [RML test cases](https://rml.io/test-cases/)
 for CSV and JSON data formats, and thus verifying empirically that the semantics 
