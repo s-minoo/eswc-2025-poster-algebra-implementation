@@ -1,16 +1,27 @@
 <a name="readme-top"></a>
 
-## About
+# RML Compliance of a Formal Algebra for Knowledge Graph Construction
+This is a prototype implementation of an RML-compliant mapping engine 
+based on the formal algebra from the research paper 
+*An Algebraic Foundation for Knowledge Graph Construction* [^paper_fnt]. 
 
-This repo contains 3 independent modules for executing the mappings of an
-RML document using algebraic expressions.
+<div style="text-align:center">
+<img src="./figures/pipeline.svg">
+<p>Figure 1. Three-step execution of an RML-compliant mapping
+engine based on formal algebra </p>
+</div>
 
-1. RML normalization (normalizer.py)
-2. RML translation to algebraic expressions (rust-translator)
+The execution flow of this prototype implementation is shown in Figure 1
+according to the following steps: 
+
+1. Input **valid** arbitrary RML document is first normalized using the 
+python script [normalizer.py](./normalizer.py)
+2. Normalized RML RDF-graph is translated to algebraic expression (module: [rust-translator](./rust-translator/))
    - Adapted the `vocab`, `operator`, and `plangenerator` modules from
      [algemaploom-rs](https://github.com/RMLio/algemaploom-rs/)
-3. Algebraic expression evaluation engine (rmlweaver-js)
-   - Added new operators such as union and extend functions to the prototyping 
+3. Generated algebraic expression is evaluated using the execution engine
+   (module: [rmlweaver-js](./rmlweaver-js/))
+   - Added new operators such as union and new extend functions to the prototyping 
    algebraic mapping engine [RMLWeaver-JS](https://github.com/RMLio/rmlweaver-js/)
 
 ## Prerequisites
@@ -109,5 +120,17 @@ npm run execute_dot <Dot file>
 ## Acknowledgement
 
 This software makes use of [sophia_rs](https://github.com/pchampin/sophia_rs) crate!
+
+## License 
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+
+
+[^paper_fnt]: Min Oo, S., Hartig, O.: An Algebraic Foundation for Knowledge
+    Graph Construction. In: Proceedings of the 22nd Extended Semantic Web
+    Conference (ESWC). Springer Nature Switzerland (2025), extend version
+    available: [https://arxiv.org/abs/2503.10385](https://arxiv.org/abs/2503.10385)
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
