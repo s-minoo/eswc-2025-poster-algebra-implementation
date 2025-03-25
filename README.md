@@ -5,11 +5,12 @@ This is a prototype implementation of an RML-compliant mapping engine
 based on the formal algebra from the research paper 
 *An Algebraic Foundation for Knowledge Graph Construction* [^paper_fnt]. 
 
-<div style="text-align:center">
+<p align="center">
 <img src="./figures/pipeline.svg">
-<p>Figure 1. Three-step execution of an RML-compliant mapping
+</p>
+<p align="center">Figure 1. Three-step execution of an RML-compliant mapping
 engine based on formal algebra </p>
-</div>
+
 
 The execution flow of this prototype implementation is shown in Figure 1
 according to the following steps: 
