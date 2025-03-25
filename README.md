@@ -11,7 +11,6 @@ based on the formal algebra from the research paper
 <p align="center">Figure 1. Three-step execution of an RML-compliant mapping
 engine based on formal algebra </p>
 
-
 The execution flow of this prototype implementation is shown in Figure 1
 according to the following steps: 
 
@@ -24,6 +23,11 @@ python script [normalizer.py](./normalizer.py)
    (module: [rmlweaver-js](./rmlweaver-js/))
    - Added new operators such as union and new extend functions to the prototyping 
    algebraic mapping engine [RMLWeaver-JS](https://github.com/RMLio/rmlweaver-js/)
+
+The implementation is evaluated with the official [RML test cases](https://rml.io/test-cases/)
+for CSV and JSON data formats, and thus verifying empirically that the semantics 
+captured by the translation algorithm in the paper[^paper_fnt] aligns with the
+informally-defined semantics of the official RML test cases.
 
 
 ## Prerequisites
