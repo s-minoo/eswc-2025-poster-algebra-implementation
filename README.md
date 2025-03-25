@@ -25,6 +25,7 @@ python script [normalizer.py](./normalizer.py)
    - Added new operators such as union and new extend functions to the prototyping 
    algebraic mapping engine [RMLWeaver-JS](https://github.com/RMLio/rmlweaver-js/)
 
+
 ## Prerequisites
 
 To compile the project on your own, you'll need to have
@@ -129,8 +130,8 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 [^paper_fnt]: Min Oo, S., Hartig, O.: An Algebraic Foundation for Knowledge
     Graph Construction. In: Proceedings of the 22nd Extended Semantic Web
-    Conference (ESWC). Springer Nature Switzerland (2025), extend version
-    available: [https://arxiv.org/abs/2503.10385](https://arxiv.org/abs/2503.10385)
+    Conference (ESWC). Springer Nature Switzerland (2025), extended version is 
+    available at: [https://arxiv.org/abs/2503.10385](https://arxiv.org/abs/2503.10385)
 
 
 
