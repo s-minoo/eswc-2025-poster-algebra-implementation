@@ -20,7 +20,7 @@ python script [normalizer.py](./normalizer.py)
 2. Normalized RML RDF-graph is translated to algebraic expression (module: [rust-translator](./rust-translator/))
    - Adapted the `vocab`, `operator`, and `plangenerator` modules from
      [algemaploom-rs](https://github.com/RMLio/algemaploom-rs/)
-3. Generated algebraic expression is evaluated using the execution engine
+3. Generated algebraic expression is evaluated using the execution engine to map heterogeneous data to RDF graph
    (module: [rmlweaver-js](./rmlweaver-js/))
    - Added new operators such as union and new extend functions to the prototyping 
    algebraic mapping engine [RMLWeaver-JS](https://github.com/RMLio/rmlweaver-js/)
