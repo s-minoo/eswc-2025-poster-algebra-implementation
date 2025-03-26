@@ -4,6 +4,16 @@
 This is a prototype implementation of an RML-compliant mapping engine 
 based on the formal algebra from the research paper 
 *An Algebraic Foundation for Knowledge Graph Construction* [^paper_fnt]. 
+The research paper aims to address the lack of formal semantics for declarative
+mapping languages by introducing formally defined algebra for capturing 
+mapping semantics.
+Another contribution from the paper is the translation algorithm from the 
+popular mapping language RML to the algebra -- thereby, providing a formal 
+definitions for the semantics of RML. 
+
+The focus of this prototype implementation is to empirically verify that the 
+translation algorithm aligns with the informally-defined semantics of RML 
+by evaluating the prototype RML-compliant mapping engine with official [RML test cases](https://rml.io/test-cases/).
 
 <p align="center">
 <img src="./figures/pipeline.svg">
@@ -26,10 +36,6 @@ python script [normalizer.py](./normalizer.py)
    of the prototyping algebraic mapping engine [RMLWeaver-JS](https://github.com/RMLio/rmlweaver-js/) to 
    evaluate the algebraic expressions generated in step 2.
 
-The implementation is evaluated with the official [RML test cases](https://rml.io/test-cases/)
-for CSV and JSON data formats, and thus verifying empirically that the semantics 
-captured by the translation algorithm in the paper[^paper_fnt] aligns with the
-informally-defined semantics of the official RML test cases.
 
 
 ## Prerequisites
