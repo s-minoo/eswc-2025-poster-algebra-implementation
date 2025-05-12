@@ -4,6 +4,11 @@
 This is a prototype implementation of an RML-compliant mapping engine 
 based on the formal algebra from the research paper 
 *An Algebraic Foundation for Knowledge Graph Construction* [^paper_fnt]. 
+
+## Background 
+Current declarative mapping languages lack the formal foundations for capturing 
+the semantics of mapping heterogeneous data to knowledge graphs (i.e., RML for
+RDF graph mapping).
 The research paper aims to address the lack of formal semantics for declarative
 mapping languages by introducing formally defined algebra for capturing 
 mapping semantics.
@@ -11,8 +16,10 @@ Another contribution from the paper is the translation algorithm from the
 popular mapping language RML to the algebra -- thereby, providing a formal 
 definitions for the semantics of RML. 
 
+
+## Purpose
 The focus of this prototype implementation is to empirically verify that the 
-translation algorithm aligns with the informally-defined semantics of RML 
+translation algorithm provided by the paper[^paper_fnt] aligns with the informally-defined semantics of RML 
 by evaluating the prototype RML-compliant mapping engine with official [RML test cases](https://rml.io/test-cases/).
 
 <p align="center">
@@ -22,9 +29,9 @@ by evaluating the prototype RML-compliant mapping engine with official [RML test
 engine based on formal algebra </p>
 
 The execution flow of this prototype implementation is shown in Figure 1
-according to the following steps: 
+with the following steps: 
 
-1. An input **valid** arbitrary RML document is first normalized using the 
+1. A **valid** arbitrary RML v1.1.2 compliant document is first normalized using the 
 python script [normalizer.py](./normalizer.py)
 2. The normalized RML RDF-graph, from step 1, is translated to algebraic expressions (module: [rust-translator](./rust-translator/))
    - `vocab`, `operator`, and `plangenerator` modules from
